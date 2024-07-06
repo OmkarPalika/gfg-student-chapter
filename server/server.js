@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const config = require('config');
+const config = require('config');
 const path = require('path');
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -42,6 +43,12 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 // Error handling middleware
 app.use(errorHandler);
 
+// API Documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+
+// Error handling middleware
+app.use(errorHandler);
+
 // Connect to MongoDB
 mongoose.set('strictQuery', true);
 mongoose.connect(config.get('mongoURI'), {
@@ -67,3 +74,4 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 module.exports = app;
+
