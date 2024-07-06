@@ -1,0 +1,9 @@
+{
+    "mongoURI": "mongodb+srv://omkarpalika:omkarpalika@gfg-student-chapter.dhxxmjf.mongodb.net/?retryWrites=true&w=majority",
+    "jwtSecret": "fedfaeae548fa1363c64c66c26fdec432182ceb76d209cd3a7a43be54d7dddca904379a56825c59bbf6eac4cfc4d5db8bb3f41e09ec4d4157b526826941b8e3b",
+    "rateLimit": {
+      "windowMs": 900000,
+      "max": 100
+    }
+  }
+  
