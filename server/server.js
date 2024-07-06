@@ -2,7 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const config = require('config');
-const config = require('config');
 const path = require('path');
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -11,7 +10,7 @@ const xss = require('xss-clean');
 const compression = require('compression');
 const { swaggerUi, specs } = require('./swagger');
 const { errorHandler, rateLimiter } = require('./middleware');
-require('dotenv').config();
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 const app = express();
 
@@ -51,10 +50,7 @@ app.use(errorHandler);
 
 // Connect to MongoDB
 mongoose.set('strictQuery', true);
-mongoose.connect(config.get('mongoURI'), {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 
