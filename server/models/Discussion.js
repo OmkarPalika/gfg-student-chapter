@@ -1,15 +1,15 @@
-const mongoose = require('mongoose');
+import { Schema, model } from 'mongoose';
 
-const ReplySchema = new mongoose.Schema({
+const ReplySchema = new Schema({
   content: { type: String, required: true },
-  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   createdAt: { type: Date, default: Date.now }
 });
 
-const DiscussionSchema = new mongoose.Schema({
+const DiscussionSchema = new Schema({
   title: { type: String, required: true },
   content: { type: String, required: true },
-  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   category: { type: String, required: true },
   tags: [{ type: String }],
   replies: [ReplySchema],
@@ -17,4 +17,4 @@ const DiscussionSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('Discussion', DiscussionSchema);
+export default model('Discussion', DiscussionSchema);

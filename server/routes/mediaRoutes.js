@@ -1,17 +1,17 @@
-const express = require('express');
-const router = express.Router();
-const multer = require('multer');
-const path = require('path');
-const { uploadMedia, getMediaList, getMediaById, deleteMedia } = require('../controllers/mediaController');
-const auth = require('../middleware/auth');
+import { Router } from 'express';
+const router = Router();
+import multer, { diskStorage } from 'multer';
+import { extname } from 'path';
+import { uploadMedia, getMediaList, getMediaById, deleteMedia } from '../controllers/mediaController';
+import auth from '../middleware/auth';
 
 // Configure multer for file upload
-const storage = multer.diskStorage({
+const storage = diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/')
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname))
+    cb(null, Date.now() + extname(file.originalname))
   }
 });
 
@@ -22,4 +22,4 @@ router.get('/', getMediaList);
 router.get('/:id', getMediaById);
 router.delete('/:id', auth, deleteMedia);
 
-module.exports = router;
+export default router;

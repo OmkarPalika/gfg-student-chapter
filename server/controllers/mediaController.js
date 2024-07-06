@@ -1,6 +1,6 @@
-const Media = require('../models/Media');
+import Media from '../models/Media';
 
-exports.uploadMedia = async (req, res) => {
+export async function uploadMedia(req, res) {
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'No file uploaded' });
@@ -20,18 +20,18 @@ exports.uploadMedia = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
+}
 
-exports.getMediaList = async (req, res) => {
+export async function getMediaList(req, res) {
   try {
     const mediaList = await Media.find().populate('uploader', 'name');
     res.json(mediaList);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
+}
 
-exports.getMediaById = async (req, res) => {
+export async function getMediaById(req, res) {
   try {
     const media = await Media.findById(req.params.id).populate('uploader', 'name');
     if (!media) {
@@ -41,9 +41,9 @@ exports.getMediaById = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
+}
 
-exports.deleteMedia = async (req, res) => {
+export async function deleteMedia(req, res) {
   try {
     const media = await Media.findById(req.params.id);
     if (!media) {
@@ -58,4 +58,4 @@ exports.deleteMedia = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
+}

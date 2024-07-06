@@ -1,15 +1,15 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const path = require('path');
-const helmet = require('helmet');
-const morgan = require('morgan');
-const mongoSanitize = require('express-mongo-sanitize');
-const xss = require('xss-clean');
-const compression = require('compression');
-const { swaggerUi, specs } = require('./swagger');
-const { errorHandler, rateLimiter } = require('./middleware');
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
+import express, { json, static as expressStatic } from 'express';
+import { set, connect } from 'mongoose';
+import cors from 'cors';
+import { resolve, join } from 'path';
+import helmet from 'helmet';
+import morgan from 'morgan';
+import mongoSanitize from 'express-mongo-sanitize';
+import xss from 'xss-clean';
+import compression from 'compression';
+import { swaggerUi, specs } from './swagger';
+import { errorHandler, rateLimiter } from './middleware';
+require('dotenv').config({ path: resolve(__dirname, '../.env') });
 
 const app = express();
 
@@ -35,7 +35,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Middleware
-app.use(express.json());
+app.use(json());
 
 // API Documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
@@ -50,25 +50,25 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use(errorHandler);
 
 // Connect to MongoDB
-mongoose.set('strictQuery', true);
-mongoose.connect(process.env.MONGO_URI)
+set('strictQuery', true);
+connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 
 // Routes
-app.use('/api/auth', require('./routes/authRoutes'));
-app.use('/api/events', require('./routes/eventRoutes'));
-app.use('/api/resources', require('./routes/resourceRoutes'));
-app.use('/api/feedback', require('./routes/feedbackRoutes'));
-app.use('/api/users', require('./routes/userRoutes'));
-app.use('/api/media', require('./routes/mediaRoutes'));
-app.use('/api/blog', require('./routes/blogRoutes'));
-app.use('/api/discussions', require('./routes/discussionRoutes'));
+app.use('/api/auth', require('./routes/authRoutes').default);
+app.use('/api/events', require('./routes/eventRoutes').default);
+app.use('/api/resources', require('./routes/resourceRoutes').default);
+app.use('/api/feedback', require('./routes/feedbackRoutes').default);
+app.use('/api/users', require('./routes/userRoutes').default);
+app.use('/api/media', require('./routes/mediaRoutes').default);
+app.use('/api/blog', require('./routes/blogRoutes').default);
+app.use('/api/discussions', require('./routes/discussionRoutes').default);
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', expressStatic(join(__dirname, 'uploads')));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
-module.exports = app;
+export default app;
 

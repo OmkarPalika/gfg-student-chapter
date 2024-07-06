@@ -1,9 +1,10 @@
-const express = require('express');
-const router = express.Router();
-const { register, login } = require('../controllers/authController');
-const validate = require('../middleware/validate');
-const { registerValidation, loginValidation } = require('../validators/authValidators');
-const rateLimit = require('express-rate-limit');
+import { Router } from 'express';
+const router = Router();
+import { register, login } from '../controllers/authController';
+import validate from '../middleware/validate';
+import { default as defaultValidator } from '../validators/authValidators';
+const { registerValidation, loginValidation } = defaultValidator;
+import rateLimit from 'express-rate-limit';
 
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -21,4 +22,4 @@ const registerLimiter = rateLimit({
 
 router.post('/register', registerLimiter, validate(registerValidation), register);
 
-module.exports = router;
+export default router;

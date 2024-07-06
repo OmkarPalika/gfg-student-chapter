@@ -1,6 +1,6 @@
-const Blog = require('../models/Blog');
+import Blog from '../models/Blog';
 
-exports.createBlogPost = async (req, res) => {
+export async function createBlogPost(req, res) {
   try {
     const { title, content, tags, imageUrl } = req.body;
     const blog = new Blog({
@@ -15,18 +15,18 @@ exports.createBlogPost = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
 
-exports.getBlogPosts = async (req, res) => {
+export async function getBlogPosts(req, res) {
   try {
     const blogs = await Blog.find().populate('author', 'name');
     res.json(blogs);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
+}
 
-exports.getBlogPost = async (req, res) => {
+export async function getBlogPost(req, res) {
   try {
     const blog = await Blog.findById(req.params.id).populate('author', 'name');
     if (!blog) {
@@ -36,9 +36,9 @@ exports.getBlogPost = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
+}
 
-exports.updateBlogPost = async (req, res) => {
+export async function updateBlogPost(req, res) {
   try {
     const blog = await Blog.findById(req.params.id);
     if (!blog) {
@@ -58,9 +58,9 @@ exports.updateBlogPost = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
 
-exports.deleteBlogPost = async (req, res) => {
+export async function deleteBlogPost(req, res) {
   try {
     const blog = await Blog.findById(req.params.id);
     if (!blog) {
@@ -74,4 +74,4 @@ exports.deleteBlogPost = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
+}

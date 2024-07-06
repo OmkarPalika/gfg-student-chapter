@@ -1,15 +1,15 @@
-const User = require('../models/User');
+import User from '../models/User';
 
-exports.getProfile = async (req, res) => {
+export async function getProfile(req, res) {
   try {
     const user = await User.findById(req.user._id).select('-password');
     res.json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
+}
 
-exports.updateProfile = async (req, res) => {
+export async function updateProfile(req, res) {
   try {
     const { name, bio, interests, avatar } = req.body;
     const user = await User.findById(req.user._id);
@@ -22,18 +22,18 @@ exports.updateProfile = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
 
-exports.getUsers = async (req, res) => {
+export async function getUsers(req, res) {
   try {
     const users = await User.find().select('-password');
     res.json(users);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
+}
 
-exports.getUser = async (req, res) => {
+export async function getUser(req, res) {
   try {
     const user = await User.findById(req.params.id).select('-password');
     if (!user) {
@@ -43,4 +43,4 @@ exports.getUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
+}

@@ -1,11 +1,11 @@
-const express = require('express');
-const router = express.Router();
-const { getProfile, updateProfile, getUsers, getUser } = require('../controllers/userController');
-const { auth, authorize } = require('../middleware');
+import { Router } from 'express';
+const router = Router();
+import { getProfile, updateProfile, getUsers, getUser } from '../controllers/userController';
+import { auth, authorize } from '../middleware';
 
 router.get('/profile', auth, getProfile);
 router.put('/profile', auth, updateProfile);
 router.get('/', auth, authorize(['admin']), getUsers);
 router.get('/:id', auth, getUser);
 
-module.exports = router;
+export default router;

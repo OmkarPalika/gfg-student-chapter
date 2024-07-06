@@ -1,13 +1,13 @@
-const mongoose = require('mongoose');
+import { Schema, model } from 'mongoose';
 
-const MediaSchema = new mongoose.Schema({
+const MediaSchema = new Schema({
   filename: { type: String, required: true },
   originalName: { type: String, required: true },
   mimetype: { type: String, required: true },
   size: { type: Number, required: true },
   url: { type: String, required: true },
-  uploader: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  uploader: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   uploadDate: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('Media', MediaSchema);
+export default model('Media', MediaSchema);

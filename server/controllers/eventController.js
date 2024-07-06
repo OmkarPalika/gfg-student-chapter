@@ -1,6 +1,6 @@
-const Event = require('../models/Event');
+import Event from '../models/Event';
 
-exports.createEvent = async (req, res) => {
+export async function createEvent(req, res) {
   try {
     const { title, description, date, location } = req.body;
     const event = new Event({
@@ -15,18 +15,18 @@ exports.createEvent = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
 
-exports.getEvents = async (req, res) => {
+export async function getEvents(req, res) {
   try {
     const events = await Event.find().populate('organizer', 'name email');
     res.json(events);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
+}
 
-exports.getEvent = async (req, res) => {
+export async function getEvent(req, res) {
   try {
     const event = await Event.findById(req.params.id).populate('organizer', 'name email');
     if (!event) {
@@ -36,9 +36,9 @@ exports.getEvent = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
+}
 
-exports.updateEvent = async (req, res) => {
+export async function updateEvent(req, res) {
   try {
     const event = await Event.findById(req.params.id);
     if (!event) {
@@ -57,9 +57,9 @@ exports.updateEvent = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
 
-exports.deleteEvent = async (req, res) => {
+export async function deleteEvent(req, res) {
   try {
     const event = await Event.findById(req.params.id);
     if (!event) {
@@ -73,4 +73,4 @@ exports.deleteEvent = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
+}
