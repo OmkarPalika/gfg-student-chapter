@@ -28,8 +28,10 @@ app.use(rateLimiter);
 
 // CORS Configuration
 const corsOptions = {
-  origin: ['http://yourfrontenddomain.com'],
-  optionsSuccessStatus: 200
+  origin: ['http://localhost:3000'],
+  optionsSuccessStatus: 200,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 };
 app.use(cors(corsOptions));
 

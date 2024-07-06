@@ -1,5 +1,4 @@
 gfgsc/
-│
 ├── client/                      # Frontend (React)
 │   ├── public/
 │   │   ├── index.html
@@ -11,7 +10,7 @@ gfgsc/
 │   │   │   ├── Header.js
 │   │   │   ├── Footer.js
 │   │   │   └── ...
-│   │   ├── config/
+│   │   ├── config/              # Configuration
 │   │   │   └── firebaseConfig.js
 │   │   ├── pages/               # Page components
 │   │   │   ├── Home.js
@@ -59,10 +58,10 @@ gfgsc/
 │   └── tailwind.config.js
 │
 ├── server/                      # Backend (Node.js/Express)
-│   ├── config/
+│   ├── config/                  # Configuration
 │   │   ├── default.json         # Default configuration
 │   │   └── database.js          # Database configuration
-│   ├── controllers/
+│   ├── controllers/             # Controllers
 │   │   ├── authController.js
 │   │   ├── eventController.js
 │   │   ├── resourceController.js
@@ -72,7 +71,7 @@ gfgsc/
 │   │   ├── blogController.js
 │   │   ├── discussionController.js
 │   │   └── ...
-│   ├── middleware/
+│   ├── middleware/              # Middleware
 │   │   ├── auth.js              # Authentication middleware
 │   │   ├── admin.js             # Admin role middleware
 │   │   ├── authorize.js         # Role-based authorization
@@ -80,7 +79,7 @@ gfgsc/
 │   │   ├── validate.js          # Validation middleware
 │   │   ├── rateLimiter.js       # Rate limiting middleware
 │   │   └── ...
-│   ├── models/
+│   ├── models/                  # Models
 │   │   ├── User.js
 │   │   ├── Event.js
 │   │   ├── Resource.js
@@ -89,7 +88,7 @@ gfgsc/
 │   │   ├── Blog.js
 │   │   ├── Discussion.js
 │   │   └── ...
-│   ├── routes/
+│   ├── routes/                  # Routes
 │   │   ├── authRoutes.js
 │   │   ├── eventRoutes.js
 │   │   ├── resourceRoutes.js
@@ -99,7 +98,7 @@ gfgsc/
 │   │   ├── blogRoutes.js
 │   │   ├── discussionRoutes.js
 │   │   └── ...
-│   ├── utils/
+│   ├── utils/                   # Utility functions
 │   │   ├── emailService.js      # For sending emails
 │   │   ├── pushNotificationService.js # For push notifications
 │   │   ├── analyticsService.js  # For event analytics
@@ -117,5 +116,5 @@ gfgsc/
 │   └── ...
 ├── .env                         # Environment variables
 ├── .gitignore
-├── README.md
+├── README.md                    # Project-wide README
 └── package.json                 # Root package.json for project-wide scripts
