@@ -1,10 +1,10 @@
-const rateLimit = require('express-rate-limit');
-const config = require('config');
+import rateLimit from 'express-rate-limit';
+import { get } from 'config';
 
 const rateLimiter = rateLimit({
-  windowMs: config.get('rateLimit.windowMs'),
-  max: config.get('rateLimit.max'),
+  windowMs: get('rateLimit.windowMs'),
+  max: get('rateLimit.max'),
   message: 'Too many requests from this IP, please try again after 15 minutes'
 });
 
-module.exports = rateLimiter;
+export default rateLimiter;

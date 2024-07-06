@@ -1,6 +1,6 @@
-const Feedback = require('../models/Feedback');
+import Feedback from '../models/Feedback';
 
-exports.createFeedback = async (req, res) => {
+export async function createFeedback(req, res) {
   try {
     const { content, rating, targetType, target } = req.body;
     const feedback = new Feedback({
@@ -15,18 +15,18 @@ exports.createFeedback = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
 
-exports.getFeedbacks = async (req, res) => {
+export async function getFeedbacks(req, res) {
   try {
     const feedbacks = await Feedback.find().populate('user', 'name');
     res.json(feedbacks);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
+}
 
-exports.getFeedback = async (req, res) => {
+export async function getFeedback(req, res) {
   try {
     const feedback = await Feedback.findById(req.params.id).populate('user', 'name');
     if (!feedback) {
@@ -36,9 +36,9 @@ exports.getFeedback = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
+}
 
-exports.updateFeedback = async (req, res) => {
+export async function updateFeedback(req, res) {
   try {
     const feedback = await Feedback.findById(req.params.id);
     if (!feedback) {
@@ -55,9 +55,9 @@ exports.updateFeedback = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
 
-exports.deleteFeedback = async (req, res) => {
+export async function deleteFeedback(req, res) {
   try {
     const feedback = await Feedback.findById(req.params.id);
     if (!feedback) {
@@ -71,4 +71,4 @@ exports.deleteFeedback = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
+}

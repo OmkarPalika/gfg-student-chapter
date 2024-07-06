@@ -1,6 +1,6 @@
-const Discussion = require('../models/Discussion');
+import Discussion from '../models/Discussion';
 
-exports.createDiscussion = async (req, res) => {
+export async function createDiscussion(req, res) {
   try {
     const { title, content, category, tags } = req.body;
     const discussion = new Discussion({
@@ -15,18 +15,18 @@ exports.createDiscussion = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
 
-exports.getDiscussions = async (req, res) => {
+export async function getDiscussions(req, res) {
   try {
     const discussions = await Discussion.find().populate('author', 'name');
     res.json(discussions);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
+}
 
-exports.getDiscussion = async (req, res) => {
+export async function getDiscussion(req, res) {
   try {
     const discussion = await Discussion.findById(req.params.id)
       .populate('author', 'name')
@@ -38,9 +38,9 @@ exports.getDiscussion = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
+}
 
-exports.updateDiscussion = async (req, res) => {
+export async function updateDiscussion(req, res) {
   try {
     const discussion = await Discussion.findById(req.params.id);
     if (!discussion) {
@@ -60,9 +60,9 @@ exports.updateDiscussion = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
 
-exports.deleteDiscussion = async (req, res) => {
+export async function deleteDiscussion(req, res) {
   try {
     const discussion = await Discussion.findById(req.params.id);
     if (!discussion) {
@@ -76,9 +76,9 @@ exports.deleteDiscussion = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
+}
 
-exports.addReply = async (req, res) => {
+export async function addReply(req, res) {
   try {
     const discussion = await Discussion.findById(req.params.id);
     if (!discussion) {
@@ -95,9 +95,9 @@ exports.addReply = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
 
-exports.deleteReply = async (req, res) => {
+export async function deleteReply(req, res) {
   try {
     const discussion = await Discussion.findById(req.params.id);
     if (!discussion) {
@@ -117,4 +117,4 @@ exports.deleteReply = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}

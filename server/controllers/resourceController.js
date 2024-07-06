@@ -1,6 +1,6 @@
-const Resource = require('../models/Resource');
+import Resource from '../models/Resource';
 
-exports.createResource = async (req, res) => {
+export async function createResource(req, res) {
   try {
     const { title, description, content, category, attachments } = req.body;
     const resource = new Resource({
@@ -16,18 +16,18 @@ exports.createResource = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
 
-exports.getResources = async (req, res) => {
+export async function getResources(req, res) {
   try {
     const resources = await Resource.find().populate('author', 'name email');
     res.json(resources);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
+}
 
-exports.getResource = async (req, res) => {
+export async function getResource(req, res) {
   try {
     const resource = await Resource.findById(req.params.id).populate('author', 'name email');
     if (!resource) {
@@ -37,9 +37,9 @@ exports.getResource = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
+}
 
-exports.updateResource = async (req, res) => {
+export async function updateResource(req, res) {
   try {
     const resource = await Resource.findById(req.params.id);
     if (!resource) {
@@ -60,9 +60,9 @@ exports.updateResource = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
 
-exports.deleteResource = async (req, res) => {
+export async function deleteResource(req, res) {
   try {
     const resource = await Resource.findById(req.params.id);
     if (!resource) {
@@ -76,4 +76,4 @@ exports.deleteResource = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
+}
