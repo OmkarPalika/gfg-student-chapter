@@ -1,0 +1,8 @@
+{
+  "mongoURI": "${MONGO_URI}",
+  "jwtSecret": "${JWT_SECRET}",
+  "rateLimit": {
+    "windowMs": "${RATE_LIMIT_WINDOW_MS}",
+    "max": "${RATE_LIMIT_MAX}"
+  }
+}

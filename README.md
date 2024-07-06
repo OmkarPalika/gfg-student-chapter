@@ -1,14 +1,18 @@
-gfg-student-chapter/
+gfgsc/
 │
 ├── client/                      # Frontend (React)
 │   ├── public/
 │   │   ├── index.html
+│   │   ├── manifest.json
+│   │   ├── robots.txt
 │   │   └── favicon.ico
 │   ├── src/
 │   │   ├── components/          # Reusable components
 │   │   │   ├── Header.js
 │   │   │   ├── Footer.js
 │   │   │   └── ...
+│   │   ├── config/
+│   │   │   └── firebaseConfig.js
 │   │   ├── pages/               # Page components
 │   │   │   ├── Home.js
 │   │   │   ├── Events.js
@@ -49,10 +53,14 @@ gfg-student-chapter/
 │   ├── tests/                   # Frontend tests
 │   │   └── ...
 │   ├── package.json
+│   ├── README.md
+│   ├── .gitignore
+│   ├── postcss.config.js
 │   └── tailwind.config.js
 │
 ├── server/                      # Backend (Node.js/Express)
 │   ├── config/
+│   │   ├── default.json         # Default configuration
 │   │   └── database.js          # Database configuration
 │   ├── controllers/
 │   │   ├── authController.js
@@ -67,6 +75,10 @@ gfg-student-chapter/
 │   ├── middleware/
 │   │   ├── auth.js              # Authentication middleware
 │   │   ├── admin.js             # Admin role middleware
+│   │   ├── authorize.js         # Role-based authorization
+│   │   ├── errorHandler.js      # Error handling middleware
+│   │   ├── validate.js          # Validation middleware
+│   │   ├── rateLimiter.js       # Rate limiting middleware
 │   │   └── ...
 │   ├── models/
 │   │   ├── User.js
@@ -93,9 +105,12 @@ gfg-student-chapter/
 │   │   ├── analyticsService.js  # For event analytics
 │   │   └── ...
 │   ├── tests/                   # Backend tests
+│   │   ├── auth.test.js         # Tests for auth routes
 │   │   └── ...
+│   ├── swagger.js               # Swagger setup for API documentation
 │   ├── app.js                   # Express app setup
 │   ├── server.js                # Server entry point
+│   ├── README.md
 │   └── package.json
 │
 ├── scripts/                     # Custom scripts
@@ -104,4 +119,3 @@ gfg-student-chapter/
 ├── .gitignore
 ├── README.md
 └── package.json                 # Root package.json for project-wide scripts
-# gfg-student-chapter

@@ -1,18 +1,53 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const config = require('./config/database');
-const app = express();
-require('dotenv').config();
+const config = require('config');
 const path = require('path');
+const helmet = require('helmet');
+const morgan = require('morgan');
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
+const compression = require('compression');
+const { swaggerUi, specs } = require('./swagger');
+const { errorHandler, rateLimiter } = require('./middleware');
+require('dotenv').config();
+
+const app = express();
+
+// Security Middlewares
+app.use(helmet());
+app.use(mongoSanitize());
+app.use(xss());
+app.use(compression());
+
+// Logging Middleware
+app.use(morgan('combined'));
+
+// Rate Limiting Middleware
+app.use(rateLimiter);
+
+// CORS Configuration
+const corsOptions = {
+  origin: ['http://yourfrontenddomain.com'],
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 
 // Middleware
-app.use(cors());
 app.use(express.json());
+
+// API Documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+
+// Error handling middleware
+app.use(errorHandler);
 
 // Connect to MongoDB
 mongoose.set('strictQuery', true);
-mongoose.connect(config.mongoURI)
+mongoose.connect(config.get('mongoURI'), {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 
