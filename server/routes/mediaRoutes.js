@@ -1,11 +1,15 @@
 import { Router } from 'express';
-const router = Router();
-import multer, { diskStorage } from 'multer';
+import { diskStorage } from 'multer';
 import { extname } from 'path';
-import { uploadMedia, getMediaList, getMediaById, deleteMedia } from '../controllers/mediaController';
-import auth from '../middleware/auth';
+import multer from 'multer';
+import uploadMedia from '../controllers/mediaController.js';
+import getMediaList from '../controllers/mediaController.js';
+import getMediaById from '../controllers/mediaController.js';
+import deleteMedia from '../controllers/mediaController.js';
+import auth from '../middleware/auth.js';
 
-// Configure multer for file upload
+const router = Router();
+
 const storage = diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/')
@@ -17,9 +21,43 @@ const storage = diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.post('/', auth, upload.single('file'), uploadMedia);
-router.get('/', getMediaList);
-router.get('/:id', getMediaById);
-router.delete('/:id', auth, deleteMedia);
+router.post('/', auth, upload.single('file'), async (req, res) => {
+  try {
+    const media = await uploadMedia(req.file, req.user._id);
+    res.status(201).json(media);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+router.get('/', async (req, res) => {
+  try {
+    const mediaList = await getMediaList();
+    res.json(mediaList);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.get('/:id', async (req, res) => {
+  try {
+    const media = await getMediaById(req.params.id);
+    if (!media) {
+      return res.status(404).json({ error: 'Media not found' });
+    }
+    res.json(media);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    await deleteMedia(req.params.id, req.user._id);
+    res.json({ message: 'Media deleted successfully' });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
 
 export default router;

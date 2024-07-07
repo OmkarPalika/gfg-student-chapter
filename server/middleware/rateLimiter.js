@@ -1,9 +1,9 @@
 import rateLimit from 'express-rate-limit';
-import { get } from 'config';
+import config from 'config';
 
 const rateLimiter = rateLimit({
-  windowMs: get('rateLimit.windowMs'),
-  max: get('rateLimit.max'),
+  windowMs: config.get('rateLimit.windowMs'),
+  max: config.get('rateLimit.max'),
   message: 'Too many requests from this IP, please try again after 15 minutes'
 });
 

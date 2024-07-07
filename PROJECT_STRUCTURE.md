@@ -7,8 +7,14 @@ gfgsc/
 │   │   └── favicon.ico
 │   ├── src/
 │   │   ├── components/          # Reusable components
-│   │   │   ├── Header.js
+│   │   │   ├── BlogPost.js
+│   │   │   ├── ErrorBoundary.js
+│   │   │   ├── EventCard.js
 │   │   │   ├── Footer.js
+│   │   │   ├── Header.js
+│   │   │   ├── LoadingSpinner.js
+│   │   │   ├── Navbar.js
+│   │   │   ├── PrivateRoute.js
 │   │   │   └── ...
 │   │   ├── config/              # Configuration
 │   │   │   └── firebaseConfig.js
@@ -43,6 +49,7 @@ gfgsc/
 │   │   │   ├── api.js
 │   │   │   ├── auth.js
 │   │   │   ├── eventUtils.js
+│   │   ├───├── firebaseAnalytics.js
 │   │   │   ├── resourceUtils.js
 │   │   │   └── ...
 │   │   ├── styles/              # Global styles
@@ -105,6 +112,7 @@ gfgsc/
 │   │   └── ...
 │   ├── tests/                   # Backend tests
 │   │   ├── auth.test.js         # Tests for auth routes
+│   │   ├── authenticatedRoutes.test.js # Tests for authenticated routes
 │   │   └── ...
 │   ├── swagger.js               # Swagger setup for API documentation
 │   ├── app.js                   # Express app setup

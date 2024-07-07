@@ -17,4 +17,9 @@ const DiscussionSchema = new Schema({
   updatedAt: { type: Date, default: Date.now }
 });
 
+DiscussionSchema.pre('save', function(next) {
+  this.updatedAt = new Date();
+  next();
+});
+
 export default model('Discussion', DiscussionSchema);

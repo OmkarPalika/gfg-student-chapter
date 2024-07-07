@@ -1,23 +1,28 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { login } = useAuth();
   const [error, setError] = useState('');
-  const navigate = useNavigate(); // Use useNavigate instead of useHistory
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+
     try {
       await login(email, password);
-      navigate('/'); // Redirect to '/dashboard' after successful login
+      navigate('/');
     } catch (error) {
-      setError('Failed to log in. Please try again.'); // Handle specific error messages as needed
+      setError('Failed to log in. Please check your credentials.');
       console.error('Login error:', error);
     }
+
+    setLoading(false);
   };
 
   return (
@@ -30,6 +35,7 @@ const Login = () => {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Email"
           className="mb-4 p-2 border border-gray-300 rounded w-full"
+          required
         />
         <input
           type="password"
@@ -37,9 +43,10 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
           className="mb-4 p-2 border border-gray-300 rounded w-full"
+          required
         />
-        <button type="submit" className="bg-green-500 text-white p-2 rounded w-full">
-          Login
+        <button type="submit" className="bg-green-500 text-white p-2 rounded w-full" disabled={loading}>
+          {loading ? 'Logging in...' : 'Login'}
         </button>
         {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
       </form>

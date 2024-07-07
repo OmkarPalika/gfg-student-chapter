@@ -1,6 +1,6 @@
-import Discussion from '../models/Discussion';
+import Discussion from '../models/Discussion.js';
 
-export async function createDiscussion(req, res) {
+async function createDiscussion(req, res) {
   try {
     const { title, content, category, tags } = req.body;
     const discussion = new Discussion({
@@ -17,7 +17,7 @@ export async function createDiscussion(req, res) {
   }
 }
 
-export async function getDiscussions(req, res) {
+async function getDiscussions(req, res) {
   try {
     const discussions = await Discussion.find().populate('author', 'name');
     res.json(discussions);
@@ -26,7 +26,7 @@ export async function getDiscussions(req, res) {
   }
 }
 
-export async function getDiscussion(req, res) {
+async function getDiscussion(req, res) {
   try {
     const discussion = await Discussion.findById(req.params.id)
       .populate('author', 'name')
@@ -40,7 +40,7 @@ export async function getDiscussion(req, res) {
   }
 }
 
-export async function updateDiscussion(req, res) {
+async function updateDiscussion(req, res) {
   try {
     const discussion = await Discussion.findById(req.params.id);
     if (!discussion) {
@@ -62,7 +62,7 @@ export async function updateDiscussion(req, res) {
   }
 }
 
-export async function deleteDiscussion(req, res) {
+async function deleteDiscussion(req, res) {
   try {
     const discussion = await Discussion.findById(req.params.id);
     if (!discussion) {
@@ -78,7 +78,7 @@ export async function deleteDiscussion(req, res) {
   }
 }
 
-export async function addReply(req, res) {
+async function addReply(req, res) {
   try {
     const discussion = await Discussion.findById(req.params.id);
     if (!discussion) {
@@ -97,7 +97,7 @@ export async function addReply(req, res) {
   }
 }
 
-export async function deleteReply(req, res) {
+async function deleteReply(req, res) {
   try {
     const discussion = await Discussion.findById(req.params.id);
     if (!discussion) {
@@ -118,3 +118,13 @@ export async function deleteReply(req, res) {
     res.status(400).json({ error: error.message });
   }
 }
+
+export default {
+  createDiscussion,
+  getDiscussions,
+  getDiscussion,
+  updateDiscussion,
+  deleteDiscussion,
+  addReply,
+  deleteReply
+};

@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
-import { hash, compare } from 'bcryptjs';
+import pkg from 'bcryptjs';
+const { hash, compare } = pkg;
 
 const UserSchema = new Schema({
   name: { type: String, required: true },
@@ -9,7 +10,11 @@ const UserSchema = new Schema({
   bio: { type: String },
   interests: [{ type: String }],
   avatar: { type: String },
+  birthdate: { type: Date },
+  location: { type: String },
 }, { timestamps: true });
+
+UserSchema.index({ email: 1 }, { unique: true });
 
 UserSchema.pre('save', async function(next) {
   if (!this.isModified('password')) return next();
