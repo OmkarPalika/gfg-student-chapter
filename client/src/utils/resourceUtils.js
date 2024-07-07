@@ -58,3 +58,4 @@ const handleResourceError = (prefix, error) => {
   throw error;
 };
 
+export { handleResourceError }; // Exporting error handler for testing or other utility

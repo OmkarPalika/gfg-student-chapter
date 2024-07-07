@@ -1,14 +1,20 @@
 import { set, connect } from 'mongoose';
 import app from './app.js';
+import dotenv from 'dotenv';
+import path from 'path';
+
+// Load environment variables
+dotenv.config({ path: path.resolve(path.resolve(), '.','.env') });
 
 // Connect to MongoDB
 set('strictQuery', true);
-connect(process.env.MONGO_URI)
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => {
-    console.error('MongoDB connection error:', err);
-    process.exit(1); // Exit process with failure
-  });
+connect(process.env.MONGO_URI, {
+})
+.then(() => console.log('MongoDB connected'))
+.catch(err => {
+  console.error('MongoDB connection error:', err);
+  process.exit(1); // Exit process with failure
+});
 
 // Routes
 import authRoutes from './routes/authRoutes.js';

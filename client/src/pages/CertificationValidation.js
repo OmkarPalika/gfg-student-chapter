@@ -1,18 +1,24 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorBoundary from '../components/ErrorBoundary';
 
 const CertificationValidation = () => {
   const [certificateNumber, setCertificateNumber] = useState('');
   const [validationResult, setValidationResult] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleValidation = async () => {
+    setLoading(true);
     try {
       const response = await axios.get(`http://localhost:5000/api/certificates/${certificateNumber}`);
       setValidationResult(response.data);
+      setLoading(false);
     } catch (error) {
       setError('Failed to validate certificate. Please try again.');
       console.error('Certificate validation error:', error);
+      setLoading(false);
     }
   };
 
@@ -28,15 +34,17 @@ const CertificationValidation = () => {
           className="mb-4 p-2 border border-gray-300 rounded w-full"
         />
         <button onClick={handleValidation} className="bg-green-500 text-white p-2 rounded w-full">
-          Validate Certificate
+          {loading ? <LoadingSpinner /> : 'Validate Certificate'}
         </button>
-        {validationResult && (
-          <div className="mt-4">
-            <p>Certificate Number: {validationResult.certificateNumber}</p>
-            <p>Validation Status: {validationResult.valid ? 'Valid' : 'Invalid'}</p>
-            {/* Display additional validation details as needed */}
-          </div>
-        )}
+        <ErrorBoundary>
+          {validationResult && (
+            <div className="mt-4">
+              <p>Certificate Number: {validationResult.certificateNumber}</p>
+              <p>Validation Status: {validationResult.valid ? 'Valid' : 'Invalid'}</p>
+              {/* Display additional validation details as needed */}
+            </div>
+          )}
+        </ErrorBoundary>
         {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
       </div>
     </div>

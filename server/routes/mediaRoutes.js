@@ -1,7 +1,8 @@
+// routes/mediaRoutes.js
 import { Router } from 'express';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
 import multer from 'multer';
+import { extname } from 'path';
+import { diskStorage } from 'multer';
 import uploadMedia from '../controllers/mediaController.js';
 import getMediaList from '../controllers/mediaController.js';
 import getMediaById from '../controllers/mediaController.js';
@@ -12,15 +13,16 @@ const router = Router();
 
 const storage = diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/')
+    cb(null, 'uploads/');
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + extname(file.originalname))
+    cb(null, Date.now() + extname(file.originalname));
   }
 });
 
 const upload = multer({ storage: storage });
 
+// Upload media
 router.post('/', auth, upload.single('file'), async (req, res) => {
   try {
     const media = await uploadMedia(req.file, req.user._id);
@@ -30,6 +32,7 @@ router.post('/', auth, upload.single('file'), async (req, res) => {
   }
 });
 
+// Get list of media
 router.get('/', async (req, res) => {
   try {
     const mediaList = await getMediaList();
@@ -39,6 +42,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Get media by ID
 router.get('/:id', async (req, res) => {
   try {
     const media = await getMediaById(req.params.id);
@@ -51,6 +55,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// Delete media by ID
 router.delete('/:id', auth, async (req, res) => {
   try {
     await deleteMedia(req.params.id, req.user._id);

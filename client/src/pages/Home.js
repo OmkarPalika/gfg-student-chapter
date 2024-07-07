@@ -25,13 +25,35 @@ const Home = () => {
         <p>Introduction to the GeeksforGeeks Student Chapter.</p>
         {currentUser ? (
           <>
-            <p>Logged in as: {currentUser.email}</p>
-            <button onClick={handleLogout} className="bg-red-500 text-white p-2 rounded mt-2">Logout</button>
+            <p>Logged in as: {currentUser.role} - {currentUser.email}</p>
+            <button
+              onClick={handleLogout}
+              className="bg-red-500 text-white p-2 rounded mt-2"
+              aria-label="Logout"
+            >
+              Logout
+            </button>
             {currentUser.role === 'admin' && (
-              <p className="mt-4">Admin-specific content or actions</p>
+              <div className="mt-4">
+                <p>Admin-specific content or actions</p>
+                <Link
+                  to="/admin-dashboard"
+                  className="bg-blue-500 text-white p-2 rounded mt-2"
+                >
+                  Admin Dashboard
+                </Link>
+              </div>
             )}
             {currentUser.role === 'member' && (
-              <p className="mt-4">Member-specific content or actions</p>
+              <div className="mt-4">
+                <p>Member-specific content or actions</p>
+                <Link
+                  to="/member-dashboard"
+                  className="bg-green-500 text-white p-2 rounded mt-2"
+                >
+                  Member Dashboard
+                </Link>
+              </div>
             )}
           </>
         ) : (
@@ -39,8 +61,18 @@ const Home = () => {
             <p>Highlight upcoming events.</p>
             <p>Display recent blog posts or news related to the chapter.</p>
             <div className="mt-4">
-              <Link to="/register" className="bg-green-500 text-white p-2 rounded">Register</Link>
-              <Link to="/login" className="bg-blue-500 text-white p-2 rounded ml-2">Login</Link>
+              <Link
+                to="/register"
+                className="bg-green-500 text-white p-2 rounded"
+              >
+                Register
+              </Link>
+              <Link
+                to="/login"
+                className="bg-blue-500 text-white p-2 rounded ml-2"
+              >
+                Login
+              </Link>
             </div>
           </>
         )}

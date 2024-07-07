@@ -1,3 +1,4 @@
+// routes/feedbackRoutes.js
 import { Router } from 'express';
 import createFeedback from '../controllers/feedbackController.js';
 import getFeedbacks from '../controllers/feedbackController.js';
@@ -6,10 +7,11 @@ import updateFeedback from '../controllers/feedbackController.js';
 import deleteFeedback from '../controllers/feedbackController.js';
 import auth from '../middleware/auth.js';
 import validate from '../middleware/validate.js';
-import feedbackValidation from '../validators/feedbackValidators.js';
+import { feedbackValidation } from '../validators/feedbackValidators.js';
 
 const router = Router();
 
+// Create a new feedback
 router.post('/', auth, validate(feedbackValidation), async (req, res) => {
   try {
     const feedback = await createFeedback(req.body, req.user._id);
@@ -19,6 +21,7 @@ router.post('/', auth, validate(feedbackValidation), async (req, res) => {
   }
 });
 
+// Get all feedbacks
 router.get('/', async (req, res) => {
   try {
     const feedbacks = await getFeedbacks();
@@ -28,6 +31,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Get a single feedback by ID
 router.get('/:id', async (req, res) => {
   try {
     const feedback = await getFeedback(req.params.id);
@@ -40,6 +44,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// Update a feedback by ID
 router.put('/:id', auth, validate(feedbackValidation), async (req, res) => {
   try {
     const updatedFeedback = await updateFeedback(req.params.id, req.body, req.user._id);
@@ -49,6 +54,7 @@ router.put('/:id', auth, validate(feedbackValidation), async (req, res) => {
   }
 });
 
+// Delete a feedback by ID
 router.delete('/:id', auth, async (req, res) => {
   try {
     await deleteFeedback(req.params.id, req.user._id);

@@ -1,3 +1,4 @@
+// models/Media.js
 import { Schema, model } from 'mongoose';
 
 const MediaSchema = new Schema({
@@ -7,7 +8,13 @@ const MediaSchema = new Schema({
   size: { type: Number, required: true },
   url: { type: String, required: true },
   uploader: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  uploadDate: { type: Date, default: Date.now }
+  uploadDate: { type: Date, default: Date.now },
+}, { timestamps: true });
+
+// Middleware for updating `updatedAt` timestamp
+MediaSchema.pre('save', function(next) {
+  this.updatedAt = new Date();
+  next();
 });
 
 export default model('Media', MediaSchema);

@@ -1,87 +1,73 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useAuth } from '../contexts/AuthContext';
-import Notification from '../components/Notification';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const AdminDashboard = () => {
-  const { currentUser } = useAuth();
   const [users, setUsers] = useState([]);
-  const [notifications, setNotifications] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/users');
+        const token = localStorage.getItem('token');
+        const response = await axios.get('http://localhost:5000/api/users', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
         setUsers(response.data);
+        setLoading(false);
       } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error('Error fetching pending users:', error);
+        setError('Error fetching pending users: ' + (error.response?.data?.error || error.message));
+        setLoading(false);
       }
     };
-
     fetchUsers();
   }, []);
 
-  useEffect(() => {
-    const fetchNotifications = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/api/notifications');
-        setNotifications(response.data);
-      } catch (error) {
-        console.error('Error fetching notifications:', error);
-      }
-    };
-
-    fetchNotifications();
-  }, []);
-
-  const approveUser = async (userId) => {
+  const approveUser = async (id) => {
     try {
-      await axios.put(`http://localhost:5000/api/users/${userId}/approve`);
-
-      setNotifications(prevNotifications => [
-        ...prevNotifications,
-        { 
-          title: 'User Approved', 
-          message: `User with ID ${userId} has been approved.`,
-          timestamp: new Date().toISOString()
-        }
-      ]);
+      const token = localStorage.getItem('token');
+      await axios.put(`http://localhost:5000/api/users/${id}/approve`, { status: 'approved' }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setUsers(users.filter(user => user._id !== id));
     } catch (error) {
-      console.error('Error approving user:', error);
+      console.error('Failed to approve user:', error);
+      setError('Failed to approve user: ' + (error.response?.data?.error || error.message));
     }
   };
 
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <div className="max-w-md mx-auto p-6 bg-white rounded shadow-md">
-        <h2 className="text-3xl font-bold mb-4">Admin Dashboard</h2>
-        <p>Welcome, {currentUser.email}!</p>
-        <ul className="mt-4">
-          {users.map(user => (
-            <li key={user._id} className="flex items-center justify-between py-2">
-              <div>{user.email} {user.approved ? '(Approved)' : '(Pending)'}</div>
-              {!user.approved && (
-                <button onClick={() => approveUser(user._id)} className="bg-blue-500 text-white px-4 py-2 rounded">
-                  Approve
-                </button>
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>
+  const rejectUser = async (id) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.put(`http://localhost:5000/api/users/${id}/approve`, { status: 'rejected' }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setUsers(users.filter(user => user._id !== id));
+    } catch (error) {
+      console.error('Failed to reject user:', error);
+      setError('Failed to reject user: ' + (error.response?.data?.error || error.message));
+    }
+  };
 
-      <div className="max-w-md mx-auto mt-6 p-6 bg-white rounded shadow-md">
-        <h2 className="text-3xl font-bold mb-4">Notifications</h2>
-        <div>
-          {notifications.length === 0 ? (
-            <p className="text-gray-500">No notifications</p>
-          ) : (
-            notifications.map(notification => (
-              <Notification key={notification._id} notification={notification} />
-            ))
-          )}
-        </div>
-      </div>
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
+  return (
+    <div>
+      <h1>Admin Dashboard</h1>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <ul>
+        {users.map(user => (
+          <li key={user._id}>
+            {user.name} ({user.email})
+            <button onClick={() => approveUser(user._id)}>Approve</button>
+            <button onClick={() => rejectUser(user._id)}>Reject</button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

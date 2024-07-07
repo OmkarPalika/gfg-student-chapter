@@ -1,3 +1,4 @@
+// AuthContext.js
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { auth } from '../config/firebaseConfig';
 import {
@@ -15,15 +16,38 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
-      setLoading(false);
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const { email } = user;
+
+          let role = 'visitor'; // Default role is 'visitor'
+
+          // Check if the user's email is in the list of admin emails
+          const adminEmails = ['palikaomkar@gmail.com', 'admin2@example.com'];
+          if (adminEmails.includes(email)) {
+            role = 'admin';
+          }
+
+          // Set the current user with role
+          setCurrentUser({ ...user, role });
+          setLoading(false);
+        } catch (error) {
+          console.error('Error fetching user roles:', error);
+          setCurrentUser(null);
+          setLoading(false);
+          setError('Failed to fetch user roles.');
+        }
+      } else {
+        setCurrentUser(null);
+        setLoading(false);
+      }
     }, (error) => {
       setError(error.message);
       setLoading(false);
     });
 
-    return unsubscribe;
+    return () => unsubscribe();
   }, []);
 
   const login = async (email, password) => {
@@ -59,7 +83,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ currentUser, login, logout, register, error }}>
-      {!loading && children}
+      {!loading && children} {/* Render children only when loading is false */}
     </AuthContext.Provider>
   );
 };

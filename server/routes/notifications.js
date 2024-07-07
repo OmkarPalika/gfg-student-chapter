@@ -1,7 +1,9 @@
-import express from 'express';
+// routes/notifications.js
+import { Router } from 'express';
 import Notification from '../models/Notification.js';
+import auth from '../middleware/auth.js';
 
-const router = express.Router();
+const router = Router();
 
 // GET all notifications
 router.get('/', async (req, res) => {
@@ -15,7 +17,7 @@ router.get('/', async (req, res) => {
 });
 
 // POST create a new notification (optional, if needed)
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
   try {
     const { title, message } = req.body;
     const newNotification = new Notification({ title, message });

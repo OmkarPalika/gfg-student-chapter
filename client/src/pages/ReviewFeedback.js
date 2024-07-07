@@ -1,34 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const Resources = () => {
-  const [resources, setResources] = useState([]);
+const ReviewFeedback = () => {
+  const [feedback, setFeedback] = useState([]);
 
   useEffect(() => {
-    // Fetch resources data from backend or mock data
-    const fetchResources = async () => {
+    // Fetch feedback data from backend or mock data
+    const fetchFeedback = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/resources');
-        setResources(response.data);
+        const response = await axios.get('http://localhost:5000/api/feedback');
+        setFeedback(response.data);
       } catch (error) {
-        console.error('Error fetching resources:', error);
+        console.error('Error fetching feedback:', error);
       }
     };
 
-    fetchResources();
+    fetchFeedback();
   }, []);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <div className="max-w-4xl mx-auto p-6 bg-white rounded shadow-md">
-        <h2 className="text-3xl font-bold mb-4">Resources</h2>
-        {/* Display repository of articles, tutorials, documents */}
+        <h2 className="text-3xl font-bold mb-4">Review and Feedback</h2>
+        {/* Display feedback items */}
         <ul className="list-disc list-inside">
-          {resources.map((resource) => (
-            <li key={resource.id}>
-              <a href={resource.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-                {resource.title}
-              </a>
+          {feedback.map((item) => (
+            <li key={item.id}>
+              <p className="text-gray-800">{item.feedback}</p>
+              <p className="text-gray-600">By: {item.username}</p>
             </li>
           ))}
         </ul>
@@ -37,4 +36,4 @@ const Resources = () => {
   );
 };
 
-export default Resources;
+export default ReviewFeedback;

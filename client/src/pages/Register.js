@@ -19,9 +19,11 @@ const Register = () => {
         throw new Error('Email and password are required.');
       }
 
+      // You can add password strength validation here if needed
+
       await register(email, password);
       setLoading(false);
-      navigate('/login');
+      navigate('/login'); // Redirect to login page after successful registration
     } catch (error) {
       setError('Failed to register. Please try again.');
       console.error('Registration error:', error);
@@ -49,6 +51,8 @@ const Register = () => {
           className="mb-4 p-2 border border-gray-300 rounded w-full"
           required
         />
+        {/* Example of password strength meter or requirements */}
+        {/* <p>Password must be at least 8 characters long.</p> */}
         <button type="submit" className="bg-green-500 text-white p-2 rounded w-full" disabled={loading}>
           {loading ? 'Registering...' : 'Register'}
         </button>
