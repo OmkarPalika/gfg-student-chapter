@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import './styles/tailwind.css';
 import App from './App';
 import { AuthProvider } from './contexts/AuthContext';

@@ -1,3 +1,4 @@
+// controllers/userController.js
 import User from '../models/User.js';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
@@ -45,6 +46,8 @@ async function register(req, res) {
   } catch (error) {
     console.error('Registration error:', error);
     res.status(500).json({ error: 'Registration failed' });
+    console.error('Registration error:', error);
+    res.status(500).json({ error: 'Registration failed' });
   }
 }
 
@@ -54,12 +57,15 @@ async function login(req, res) {
 
     const user = await User.findOne({ email });
 
+    // Check if user exists and verify password
     if (!user || !(await user.comparePassword(password))) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
+    // Generate JWT token for authentication
     const token = sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
+    // Respond with user details and token
     res.json({
       user: {
         id: user._id,
@@ -72,10 +78,16 @@ async function login(req, res) {
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({ error: 'Login failed' });
+    console.error('Login error:', error);
+    res.status(500).json({ error: 'Login failed' });
   }
 }
 
-async function getUsers(req, res) {
+/**
+ * Get users based on filter criteria
+ * @param {Object} filter - Filter criteria for user query
+ */
+async function getUsers(filter = {}) {
   try {
     const filter = req.query;
     const users = await User.find(filter).select('-password');
@@ -116,7 +128,13 @@ async function getProfile(req, res) {
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
-    res.json(user);
+
+    // Update user approval status
+    user.approvalStatus = status;
+    await user.save();
+
+    // Respond with success message
+    res.status(200).json({ message: `User ${status}` });
   } catch (error) {
     console.error('Error fetching profile:', error);
     res.status(500).json({ error: 'Error fetching profile' });
@@ -151,5 +169,5 @@ export default {
   getUsers,
   approveUser,
   getProfile,
-  updateProfilew
+  updateProfile
 };
