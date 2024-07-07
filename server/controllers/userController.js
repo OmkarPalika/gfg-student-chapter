@@ -46,10 +46,6 @@ async function register(req, res) {
   } catch (error) {
     console.error('Registration error:', error);
     res.status(500).json({ error: 'Registration failed' });
-    console.error('Registration error:', error);
-    res.status(500).json({ error: 'Registration failed' });
-    console.error('Registration error:', error);
-    res.status(500).json({ error: 'Registration failed' });
   }
 }
 
@@ -78,10 +74,6 @@ async function login(req, res) {
       token
     });
   } catch (error) {
-    console.error('Login error:', error);
-    res.status(500).json({ error: 'Login failed' });
-    console.error('Login error:', error);
-    res.status(500).json({ error: 'Login failed' });
     console.error('Login error:', error);
     res.status(500).json({ error: 'Login failed' });
   }
@@ -119,7 +111,7 @@ async function approveUser(req, res) {
     user.approvalStatus = status;
     await user.save();
 
-    res.status(200).json({ message: `User ${status}` });
+    res.status(200).json({ message: `User ${user.approvalStatus}` });
   } catch (error) {
     console.error('Error approving user:', error);
     res.status(500).json({ error: 'Error approving user' });

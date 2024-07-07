@@ -9,7 +9,7 @@ const api = axios.create({
 const refreshToken = async () => {
   try {
     const refreshToken = localStorage.getItem('refreshToken');
-    const response = await axios.post('http://localhost:5000/api/refresh-token', { refreshToken });
+    const response = await axios.post('/refresh-token', { refreshToken });
     return response.data.token;
   } catch (error) {
     console.error('Error refreshing token:', error);

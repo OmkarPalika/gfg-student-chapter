@@ -15,7 +15,6 @@ const auth = async (req, res, next) => {
 
     if (!user) {
       throw new Error('User not found');
-      throw new Error('User not found');
     }
 
     req.token = token;
@@ -23,7 +22,6 @@ const auth = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    console.error('Authentication error:', error.message);
     console.error('Authentication error:', error.message);
     res.status(401).json({ error: 'Please authenticate' });
   }
