@@ -2,6 +2,15 @@ import request from 'supertest';
 import app from '../server';
 
 describe('Auth API', () => {
+  let authToken = '';
+
+  afterEach(async () => {
+    // Clean up: Delete test user after each test
+    await request(app)
+      .delete('/api/auth/delete-test-user')
+      .set('Authorization', `Bearer ${authToken}`);
+  });
+
   it('should register a user successfully', async () => {
     const userData = {
       name: 'Test User',
@@ -15,6 +24,7 @@ describe('Auth API', () => {
 
     expect(res.statusCode).toEqual(201);
     expect(res.body).toHaveProperty('token');
+    authToken = res.body.token; // Store token for cleanup
   });
 
   it('should return 400 for incomplete registration data', async () => {
@@ -60,3 +70,4 @@ describe('Auth API', () => {
     expect(res.body).toHaveProperty('error');
   });
 });
+

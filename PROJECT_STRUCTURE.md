@@ -16,6 +16,7 @@ gfgsc/
 │   │   │   ├── EventCard.js
 │   │   │   ├── Footer.js
 │   │   │   ├── Header.js
+│   │   │   ├── Notification.js
 │   │   │   ├── LoadingSpinner.js
 │   │   │   ├── Navbar.js
 │   │   │   ├── PrivateRoute.js
@@ -36,6 +37,7 @@ gfgsc/
 │   │   │   ├── MemberDashboard.js
 │   │   │   ├── AdminDashboard.js
 │   │   │   ├── NotFound.js
+│   │   │   ├── Notifications.js
 │   │   │   ├── CertificationValidation.js
 │   │   │   ├── ReviewFeedback.js
 │   │   │   ├── EventCalendar.js
@@ -101,6 +103,7 @@ gfgsc/
 │   │   ├── Resource.js
 │   │   ├── Feedback.js
 │   │   ├── Media.js
+│   │   ├── Notification.js
 │   │   ├── Blog.js
 │   │   ├── Discussion.js
 │   │   └── ...
@@ -110,6 +113,7 @@ gfgsc/
 │   │   ├── resourceRoutes.js
 │   │   ├── feedbackRoutes.js
 │   │   ├── userRoutes.js
+│   │   ├── notifications.js
 │   │   ├── mediaRoutes.js
 │   │   ├── blogRoutes.js
 │   │   ├── discussionRoutes.js

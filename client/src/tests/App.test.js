@@ -176,3 +176,4 @@ describe('App', () => {
     expect(screen.getByText(/Register/i)).toBeInTheDocument();
   });
 });
+

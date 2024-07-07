@@ -1,4 +1,11 @@
 // middleware/index.js
+import express from 'express';
+import helmet from 'helmet';
+import mongoSanitize from 'express-mongo-sanitize';
+import xss from 'xss-clean';
+import compression from 'compression';
+import morgan from 'morgan';
+import cors from 'cors';
 import errorHandler from './errorHandler.js';
 import rateLimiter from './rateLimiter.js';
 import validate from './validate.js';
