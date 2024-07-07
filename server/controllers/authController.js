@@ -1,7 +1,8 @@
-import User from '../models/User';
-import { sign } from 'jsonwebtoken';
+import User from '../models/User.js';
+import pkg from 'jsonwebtoken';
+const { sign } = pkg;
 
-export async function register(req, res) {
+async function register(req, res) {
   try {
     const { name, email, password } = req.body;
     const userExists = await User.findOne({ email });
@@ -17,7 +18,7 @@ export async function register(req, res) {
   }
 }
 
-export async function login(req, res) {
+async function login(req, res) {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
@@ -30,3 +31,8 @@ export async function login(req, res) {
     res.status(500).json({ error: error.message });
   }
 }
+
+export default {
+  register,
+  login
+};

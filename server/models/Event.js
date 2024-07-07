@@ -7,6 +7,8 @@ const EventSchema = new Schema({
   location: { type: String, required: true },
   organizer: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   participants: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  registrationLink: { type: String },
+  maxParticipants: { type: Number },
   createdAt: { type: Date, default: Date.now }
 });
 

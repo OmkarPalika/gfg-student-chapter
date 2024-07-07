@@ -7,8 +7,14 @@ gfgsc/
 │   │   └── favicon.ico
 │   ├── src/
 │   │   ├── components/          # Reusable components
-│   │   │   ├── Header.js
+│   │   │   ├── BlogPost.js
+│   │   │   ├── ErrorBoundary.js
+│   │   │   ├── EventCard.js
 │   │   │   ├── Footer.js
+│   │   │   ├── Header.js
+│   │   │   ├── LoadingSpinner.js
+│   │   │   ├── Navbar.js
+│   │   │   ├── PrivateRoute.js
 │   │   │   └── ...
 │   │   ├── config/              # Configuration
 │   │   │   └── firebaseConfig.js
@@ -43,14 +49,16 @@ gfgsc/
 │   │   │   ├── api.js
 │   │   │   ├── auth.js
 │   │   │   ├── eventUtils.js
+│   │   │   ├── firebaseAnalytics.js
 │   │   │   ├── resourceUtils.js
 │   │   │   └── ...
 │   │   ├── styles/              # Global styles
+│   │   │   ├── LoadingSpinner.css
 │   │   │   └── tailwind.css
+│   │   ├── tests/               # Frontend tests
+│   │   │   └── App.test.js
 │   │   ├── App.js
 │   │   └── index.js
-│   ├── tests/                   # Frontend tests
-│   │   └── ...
 │   ├── package.json
 │   ├── README.md
 │   ├── .gitignore
@@ -73,7 +81,7 @@ gfgsc/
 │   │   └── ...
 │   ├── middleware/              # Middleware
 │   │   ├── auth.js              # Authentication middleware
-│   │   ├── admin.js             # Admin role middleware
+│   │   ├── index.js
 │   │   ├── authorize.js         # Role-based authorization
 │   │   ├── errorHandler.js      # Error handling middleware
 │   │   ├── validate.js          # Validation middleware
@@ -103,8 +111,18 @@ gfgsc/
 │   │   ├── pushNotificationService.js # For push notifications
 │   │   ├── analyticsService.js  # For event analytics
 │   │   └── ...
+│   ├── validators/                   
+│   │   ├── authValidators.js
+│   │   ├── blogValidators.js
+│   │   ├── discussionValidators.js
+│   │   ├── eventValidators.js
+│   │   ├── feedbackValidators.js
+│   │   ├── resourceValidators.js
+│   │   ├── userValidators.js
+│   │   └── ...
 │   ├── tests/                   # Backend tests
 │   │   ├── auth.test.js         # Tests for auth routes
+│   │   ├── authenticatedRoutes.test.js # Tests for authenticated routes
 │   │   └── ...
 │   ├── swagger.js               # Swagger setup for API documentation
 │   ├── app.js                   # Express app setup

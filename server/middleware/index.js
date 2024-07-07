@@ -1,13 +1,15 @@
-import errorHandler from './errorHandler';
-import rateLimiter from './rateLimiter';
-import validate from './validate';
-import authorize from './authorize';
-import auth from './auth';
+import errorHandler from './errorHandler.js';
+import rateLimiter from './rateLimiter.js';
+import validate from './validate.js';
+import authorize from './authorize.js';
+import auth from './auth.js';
 
-export default {
-  errorHandler,
-  rateLimiter,
-  validate,
-  authorize,
-  auth
+const setupMiddlewares = (app) => {
+  app.use(errorHandler);
+  app.use(rateLimiter);
+  app.use(validate);
+  app.use(authorize);
+  app.use(auth);
 };
+
+export default setupMiddlewares;

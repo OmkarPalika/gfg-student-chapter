@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 const Register = () => {
@@ -7,32 +7,25 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const { register } = useAuth();
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false); // Track loading state
-  const navigate = useNavigate(); // Initialize useNavigate hook
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Start loading
+    setLoading(true);
 
     try {
-      // Client-side validation (example)
       if (!email || !password) {
         throw new Error('Email and password are required.');
       }
 
-      // Call register function from AuthContext
       await register(email, password);
-
-      // Reset form and show success message or redirect
-      setEmail('');
-      setPassword('');
-      setLoading(false); // Stop loading
-      navigate('/login'); // Navigate to login page upon successful registration
-
+      setLoading(false);
+      navigate('/login');
     } catch (error) {
-      setError('Failed to register. Please try again.'); // Handle specific error messages as needed
+      setError('Failed to register. Please try again.');
       console.error('Registration error:', error);
-      setLoading(false); // Stop loading on error
+      setLoading(false);
     }
   };
 
@@ -46,6 +39,7 @@ const Register = () => {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Email"
           className="mb-4 p-2 border border-gray-300 rounded w-full"
+          required
         />
         <input
           type="password"
@@ -53,6 +47,7 @@ const Register = () => {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
           className="mb-4 p-2 border border-gray-300 rounded w-full"
+          required
         />
         <button type="submit" className="bg-green-500 text-white p-2 rounded w-full" disabled={loading}>
           {loading ? 'Registering...' : 'Register'}

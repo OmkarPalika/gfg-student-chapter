@@ -1,6 +1,6 @@
-import Resource from '../models/Resource';
+import Resource from '../models/Resource.js';
 
-export async function createResource(req, res) {
+async function createResource(req, res) {
   try {
     const { title, description, content, category, attachments } = req.body;
     const resource = new Resource({
@@ -18,7 +18,7 @@ export async function createResource(req, res) {
   }
 }
 
-export async function getResources(req, res) {
+async function getResources(req, res) {
   try {
     const resources = await Resource.find().populate('author', 'name email');
     res.json(resources);
@@ -27,7 +27,7 @@ export async function getResources(req, res) {
   }
 }
 
-export async function getResource(req, res) {
+async function getResource(req, res) {
   try {
     const resource = await Resource.findById(req.params.id).populate('author', 'name email');
     if (!resource) {
@@ -39,7 +39,7 @@ export async function getResource(req, res) {
   }
 }
 
-export async function updateResource(req, res) {
+async function updateResource(req, res) {
   try {
     const resource = await Resource.findById(req.params.id);
     if (!resource) {
@@ -62,7 +62,7 @@ export async function updateResource(req, res) {
   }
 }
 
-export async function deleteResource(req, res) {
+async function deleteResource(req, res) {
   try {
     const resource = await Resource.findById(req.params.id);
     if (!resource) {
@@ -77,3 +77,5 @@ export async function deleteResource(req, res) {
     res.status(500).json({ error: error.message });
   }
 }
+
+export default { createResource, getResources, getResource, updateResource, deleteResource };

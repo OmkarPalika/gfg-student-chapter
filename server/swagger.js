@@ -7,16 +7,24 @@ const options = {
     info: {
       title: 'GFG Student Chapter API',
       version: '1.0.0',
-      description: 'API documentation for GFG Student Chapter',
-    },
-    servers: [
-      {
-        url: 'http://localhost:5000',
-        description: 'Local server',
+      description: 'API documentation for the GeeksforGeeks Student Chapter project.',
+      contact: {
+        name: 'Omkar Palika',
+        email: 'palikaomkar.22.cse@anits.edu.in',
       },
-    ],
+      servers: [
+        {
+          url: 'http://localhost:3000',
+          description: 'Local server',
+        },
+        {
+          url: 'https://gfg-student-chapter.herokuapp.com',
+          description: 'Production server',
+        },
+      ],
+    },
   },
-  apis: ['./routes/*.js'], // Paths to files containing OpenAPI definitions
+  apis: ['./routes/*.js'],
 };
 
 const specs = swaggerJsDoc(options);

@@ -1,6 +1,7 @@
-import Media from '../models/Media';
+import fs from 'fs';
+import Media from '../models/Media.js';
 
-export async function uploadMedia(req, res) {
+async function uploadMedia(req, res) {
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'No file uploaded' });
@@ -22,7 +23,7 @@ export async function uploadMedia(req, res) {
   }
 }
 
-export async function getMediaList(req, res) {
+async function getMediaList(req, res) {
   try {
     const mediaList = await Media.find().populate('uploader', 'name');
     res.json(mediaList);
@@ -31,7 +32,7 @@ export async function getMediaList(req, res) {
   }
 }
 
-export async function getMediaById(req, res) {
+async function getMediaById(req, res) {
   try {
     const media = await Media.findById(req.params.id).populate('uploader', 'name');
     if (!media) {
@@ -43,7 +44,7 @@ export async function getMediaById(req, res) {
   }
 }
 
-export async function deleteMedia(req, res) {
+async function deleteMedia(req, res) {
   try {
     const media = await Media.findById(req.params.id);
     if (!media) {
@@ -52,10 +53,22 @@ export async function deleteMedia(req, res) {
     if (media.uploader.toString() !== req.user._id.toString()) {
       return res.status(403).json({ error: 'Not authorized to delete this media' });
     }
+
+    // Delete file from the file system
+    fs.unlinkSync(media.url); // Assuming media.url holds the file path
+
+    // Delete media record from the database
     await media.remove();
-    // Here you would also delete the file from your storage
+
     res.json({ message: 'Media deleted successfully' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 }
+
+export default {
+  uploadMedia,
+  getMediaList,
+  getMediaById,
+  deleteMedia
+};

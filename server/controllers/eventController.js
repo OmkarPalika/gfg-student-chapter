@@ -1,6 +1,6 @@
-import Event from '../models/Event';
+import Event from '../models/Event.js';
 
-export async function createEvent(req, res) {
+async function createEvent(req, res) {
   try {
     const { title, description, date, location } = req.body;
     const event = new Event({
@@ -17,7 +17,7 @@ export async function createEvent(req, res) {
   }
 }
 
-export async function getEvents(req, res) {
+async function getEvents(req, res) {
   try {
     const events = await Event.find().populate('organizer', 'name email');
     res.json(events);
@@ -26,7 +26,7 @@ export async function getEvents(req, res) {
   }
 }
 
-export async function getEvent(req, res) {
+async function getEvent(req, res) {
   try {
     const event = await Event.findById(req.params.id).populate('organizer', 'name email');
     if (!event) {
@@ -38,7 +38,7 @@ export async function getEvent(req, res) {
   }
 }
 
-export async function updateEvent(req, res) {
+async function updateEvent(req, res) {
   try {
     const event = await Event.findById(req.params.id);
     if (!event) {
@@ -59,7 +59,7 @@ export async function updateEvent(req, res) {
   }
 }
 
-export async function deleteEvent(req, res) {
+async function deleteEvent(req, res) {
   try {
     const event = await Event.findById(req.params.id);
     if (!event) {
@@ -74,3 +74,11 @@ export async function deleteEvent(req, res) {
     res.status(500).json({ error: error.message });
   }
 }
+
+export default {
+  createEvent,
+  getEvents,
+  getEvent,
+  updateEvent,
+  deleteEvent
+};

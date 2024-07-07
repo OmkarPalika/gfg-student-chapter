@@ -1,6 +1,6 @@
-import Feedback from '../models/Feedback';
+import Feedback from '../models/Feedback.js';
 
-export async function createFeedback(req, res) {
+async function createFeedback(req, res) {
   try {
     const { content, rating, targetType, target } = req.body;
     const feedback = new Feedback({
@@ -17,7 +17,7 @@ export async function createFeedback(req, res) {
   }
 }
 
-export async function getFeedbacks(req, res) {
+async function getFeedbacks(req, res) {
   try {
     const feedbacks = await Feedback.find().populate('user', 'name');
     res.json(feedbacks);
@@ -26,7 +26,7 @@ export async function getFeedbacks(req, res) {
   }
 }
 
-export async function getFeedback(req, res) {
+async function getFeedback(req, res) {
   try {
     const feedback = await Feedback.findById(req.params.id).populate('user', 'name');
     if (!feedback) {
@@ -38,7 +38,7 @@ export async function getFeedback(req, res) {
   }
 }
 
-export async function updateFeedback(req, res) {
+async function updateFeedback(req, res) {
   try {
     const feedback = await Feedback.findById(req.params.id);
     if (!feedback) {
@@ -57,7 +57,7 @@ export async function updateFeedback(req, res) {
   }
 }
 
-export async function deleteFeedback(req, res) {
+async function deleteFeedback(req, res) {
   try {
     const feedback = await Feedback.findById(req.params.id);
     if (!feedback) {
@@ -72,3 +72,5 @@ export async function deleteFeedback(req, res) {
     res.status(500).json({ error: error.message });
   }
 }
+
+export default { createFeedback, getFeedbacks, getFeedback, updateFeedback, deleteFeedback };
