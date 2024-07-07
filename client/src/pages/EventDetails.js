@@ -13,7 +13,7 @@ const EventDetails = () => {
     const fetchEvent = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`/api/events/${eventId}`);
+        const response = await axios.get(`http://localhost:5000/api/events/${eventId}`);
         setEvent(response.data);
         setLoading(false);
       } catch (error) {

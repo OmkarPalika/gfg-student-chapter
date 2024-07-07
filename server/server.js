@@ -71,7 +71,7 @@ app.use('/api/resources', resourceRoutes);
 app.use('/api/feedback', feedbackRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/media', mediaRoutes);
-app.use('/api/blog', blogRoutes);
+app.use('/api/blogs', blogRoutes);
 app.use('/api/discussions', discussionRoutes);
 
 const PORT = process.env.PORT || 5000;

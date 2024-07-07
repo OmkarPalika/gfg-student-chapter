@@ -8,7 +8,7 @@ const CertificationValidation = () => {
 
   const handleValidation = async () => {
     try {
-      const response = await axios.get(`/api/certificates/${certificateNumber}`);
+      const response = await axios.get(`http://localhost:5000/api/certificates/${certificateNumber}`);
       setValidationResult(response.data);
     } catch (error) {
       setError('Failed to validate certificate. Please try again.');

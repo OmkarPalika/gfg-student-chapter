@@ -8,7 +8,7 @@ const Resources = () => {
     // Fetch resources data from backend or mock data
     const fetchResources = async () => {
       try {
-        const response = await axios.get('/api/resources');
+        const response = await axios.get('http://localhost:5000/api/resources');
         setResources(response.data);
       } catch (error) {
         console.error('Error fetching resources:', error);

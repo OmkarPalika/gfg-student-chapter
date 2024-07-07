@@ -21,10 +21,11 @@ const EventCalendar = lazy(() => import('./pages/EventCalendar'));
 const DiscussionForums = lazy(() => import('./pages/DiscussionForums'));
 const Blogs = lazy(() => import('./pages/Blogs'));
 const InteractiveTutorials = lazy(() => import('./pages/InteractiveTutorials'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 const App = () => {
   return (
-    <Router>
+    <Router basename="/">
       <AuthProvider>
         <ErrorBoundary>
           <Suspense fallback={<LoadingSpinner />}>
@@ -44,6 +45,7 @@ const App = () => {
               <Route path="/discussion-forums" element={<DiscussionForums />} />
               <Route path="/blogs" element={<Blogs />} />
               <Route path="/interactive-tutorials" element={<InteractiveTutorials />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
         </ErrorBoundary>

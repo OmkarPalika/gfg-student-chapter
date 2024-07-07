@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './styles/tailwind.css';
-import App from './App';
-import { AuthProvider } from './contexts/AuthContext';
+import App from './App.js';
+import { AuthProvider } from './contexts/AuthContext.js';
 
 // Error boundary component
 class ErrorBoundary extends React.Component {

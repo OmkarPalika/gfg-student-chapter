@@ -8,7 +8,7 @@ const DiscussionForums = () => {
     // Fetch discussion threads from backend or mock data
     const fetchThreads = async () => {
       try {
-        const response = await axios.get('/api/threads'); // Replace with actual API endpoint
+        const response = await axios.get('http://localhost:5000/api/threads');
         setThreads(response.data);
       } catch (error) {
         console.error('Error fetching discussion threads:', error);

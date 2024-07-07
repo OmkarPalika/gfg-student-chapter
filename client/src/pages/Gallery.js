@@ -8,7 +8,7 @@ const Gallery = () => {
     // Fetch gallery data from backend or mock data
     const fetchMedia = async () => {
       try {
-        const response = await axios.get('/api/gallery');
+        const response = await axios.get('http://localhost:5000/api/gallery');
         setMedia(response.data);
       } catch (error) {
         console.error('Error fetching gallery media:', error);

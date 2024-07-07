@@ -8,7 +8,7 @@ const EventCalendar = () => {
     // Fetch events data from backend or mock data
     const fetchEvents = async () => {
       try {
-        const response = await axios.get('/api/events'); // Replace with actual API endpoint
+        const response = await axios.get('http://localhost:5000/api/events');
         setEvents(response.data);
       } catch (error) {
         console.error('Error fetching events:', error);
