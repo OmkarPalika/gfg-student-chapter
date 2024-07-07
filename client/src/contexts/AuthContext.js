@@ -11,27 +11,27 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
-  const [loading, setLoading] = useState(true); // Add loading state
-  const [error, setError] = useState(null); // Add error state for handling Firebase errors
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
-      setLoading(false); // Update loading state when authentication state changes
+      setLoading(false);
     }, (error) => {
-      setError(error.message); // Handle Firebase authentication errors
+      setError(error.message);
       setLoading(false);
     });
 
-    return unsubscribe; // Cleanup function
+    return unsubscribe;
   }, []);
 
   const login = async (email, password) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      setError(null); // Clear any previous errors on successful login
+      setError(null);
     } catch (error) {
-      setError(error.message); // Handle login errors
+      setError(error.message);
       throw new Error('Failed to log in. Please try again.');
     }
   };
@@ -39,10 +39,10 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       await signOut(auth);
-      setCurrentUser(null); // Clear currentUser state upon successful logout
-      setError(null); // Clear any previous errors on successful logout
+      setCurrentUser(null);
+      setError(null);
     } catch (error) {
-      setError(error.message); // Handle logout errors
+      setError(error.message);
       throw new Error('Failed to log out. Please try again.');
     }
   };
@@ -50,14 +50,13 @@ export const AuthProvider = ({ children }) => {
   const register = async (email, password) => {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      setError(null); // Clear any previous errors on successful registration
+      setError(null);
     } catch (error) {
-      setError(error.message); // Handle registration errors
+      setError(error.message);
       throw new Error('Failed to register. Please try again.');
     }
   };
 
-  // Provide loading state to prevent rendering children before authentication state is determined
   return (
     <AuthContext.Provider value={{ currentUser, login, logout, register, error }}>
       {!loading && children}
