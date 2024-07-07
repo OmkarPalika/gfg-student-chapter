@@ -54,6 +54,16 @@ export const deleteEvent = async (eventId) => {
 
 // Helper function to handle event-related errors
 const handleEventError = (prefix, error) => {
-  console.error(prefix, error.response || error.message || error);
+  if (error.response) {
+    // The request was made and the server responded with a status code
+    console.error(prefix, 'Status:', error.response.status);
+    console.error(prefix, 'Data:', error.response.data);
+  } else if (error.request) {
+    // The request was made but no response was received
+    console.error(prefix, 'No response received:', error.request);
+  } else {
+    // Something happened in setting up the request that triggered an error
+    console.error(prefix, 'Other error:', error.message);
+  }
   throw error;
 };

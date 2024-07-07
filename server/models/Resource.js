@@ -1,3 +1,4 @@
+// models/Resource.js
 import { Schema, model } from 'mongoose';
 
 const ResourceSchema = new Schema({
@@ -9,8 +10,12 @@ const ResourceSchema = new Schema({
   attachments: [{ type: String }],
   views: { type: Number, default: 0 },
   downloads: { type: Number, default: 0 },
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now }
+}, { timestamps: true });
+
+// Middleware for updating `updatedAt` timestamp
+ResourceSchema.pre('save', function(next) {
+  this.updatedAt = new Date();
+  next();
 });
 
 export default model('Resource', ResourceSchema);

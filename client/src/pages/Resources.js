@@ -3,20 +3,29 @@ import axios from 'axios';
 
 const Resources = () => {
   const [resources, setResources] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     // Fetch resources data from backend or mock data
     const fetchResources = async () => {
+      setLoading(true);
       try {
         const response = await axios.get('http://localhost:5000/api/resources');
         setResources(response.data);
+        setLoading(false);
       } catch (error) {
+        setError('Error fetching resources. Please try again later.');
         console.error('Error fetching resources:', error);
+        setLoading(false);
       }
     };
 
     fetchResources();
   }, []);
+
+  if (loading) return <p className="text-center mt-4">Loading resources...</p>;
+  if (error) return <p className="text-center text-red-500 mt-4">{error}</p>;
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">

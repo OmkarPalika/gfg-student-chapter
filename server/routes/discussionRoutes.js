@@ -1,3 +1,4 @@
+// routes/discussionRoutes.js
 import { Router } from 'express';
 import createDiscussion from '../controllers/discussionController.js';
 import getDiscussions from '../controllers/discussionController.js';
@@ -8,11 +9,11 @@ import addReply from '../controllers/discussionController.js';
 import deleteReply from '../controllers/discussionController.js';
 import auth from '../middleware/auth.js';
 import validate from '../middleware/validate.js';
-import discussionValidation from '../validators/discussionValidators.js';
-import replyValidation from '../validators/discussionValidators.js';
+import { discussionValidation, replyValidation } from '../validators/discussionValidators.js';
 
 const router = Router();
 
+// Create a new discussion
 router.post('/', auth, validate(discussionValidation), async (req, res) => {
   try {
     const discussion = await createDiscussion(req.body, req.user._id);
@@ -22,6 +23,7 @@ router.post('/', auth, validate(discussionValidation), async (req, res) => {
   }
 });
 
+// Get all discussions
 router.get('/', async (req, res) => {
   try {
     const discussions = await getDiscussions();
@@ -31,6 +33,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Get a single discussion by ID
 router.get('/:id', async (req, res) => {
   try {
     const discussion = await getDiscussion(req.params.id);
@@ -43,6 +46,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// Update a discussion by ID
 router.put('/:id', auth, validate(discussionValidation), async (req, res) => {
   try {
     const updatedDiscussion = await updateDiscussion(req.params.id, req.body, req.user._id);
@@ -52,6 +56,7 @@ router.put('/:id', auth, validate(discussionValidation), async (req, res) => {
   }
 });
 
+// Delete a discussion by ID
 router.delete('/:id', auth, async (req, res) => {
   try {
     await deleteDiscussion(req.params.id, req.user._id);
@@ -61,6 +66,7 @@ router.delete('/:id', auth, async (req, res) => {
   }
 });
 
+// Add a reply to a discussion
 router.post('/:id/replies', auth, validate(replyValidation), async (req, res) => {
   try {
     const reply = await addReply(req.params.id, req.body, req.user._id);
@@ -70,6 +76,7 @@ router.post('/:id/replies', auth, validate(replyValidation), async (req, res) =>
   }
 });
 
+// Delete a reply from a discussion
 router.delete('/:id/replies/:replyId', auth, async (req, res) => {
   try {
     await deleteReply(req.params.id, req.params.replyId, req.user._id);

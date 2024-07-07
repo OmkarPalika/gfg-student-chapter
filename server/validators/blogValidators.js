@@ -1,19 +1,26 @@
-import { body } from "express-validator";
+// validators/blogValidators.js
+import { body } from 'express-validator';
 
 // Validation middleware for creating a blog post
 const blogPostValidation = [
-  body("title")
+  body('title')
+    .trim()
     .notEmpty()
-    .withMessage("Title is required"),
-  body("content")
+    .withMessage('Title is required'),
+
+  body('content')
+    .trim()
     .notEmpty()
-    .withMessage("Content is required"),
-  body("tags")
+    .withMessage('Content is required'),
+
+  body('tags')
     .isArray()
-    .withMessage("Tags must be an array"),
-  body("imageUrl")
+    .withMessage('Tags must be an array'),
+
+  body('imageUrl')
+    .optional()
     .isURL()
-    .withMessage("Valid URL is required"),
+    .withMessage('Valid URL is required'),
 ];
 
-export default { blogPostValidation };
+export { blogPostValidation };

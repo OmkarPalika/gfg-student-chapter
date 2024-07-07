@@ -6,9 +6,11 @@ describe('Auth API', () => {
 
   afterEach(async () => {
     // Clean up: Delete test user after each test
-    await request(app)
-      .delete('/api/auth/delete-test-user')
-      .set('Authorization', `Bearer ${authToken}`);
+    if (authToken) {
+      await request(app)
+        .delete('/api/auth/delete-test-user')
+        .set('Authorization', `Bearer ${authToken}`);
+    }
   });
 
   it('should register a user successfully', async () => {
@@ -70,4 +72,3 @@ describe('Auth API', () => {
     expect(res.body).toHaveProperty('error');
   });
 });
-

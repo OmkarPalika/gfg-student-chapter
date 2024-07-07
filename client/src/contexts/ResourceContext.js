@@ -1,3 +1,4 @@
+// ResourceContext.js
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const ResourceContext = createContext();
@@ -25,7 +26,7 @@ export const ResourceProvider = ({ children }) => {
     };
 
     fetchResources();
-  }, []);
+  }, []); // Empty dependency array ensures this effect runs only once
 
   return (
     <ResourceContext.Provider value={{ resources, loading, error }}>

@@ -1,3 +1,4 @@
+// routes/blogRoutes.js
 import { Router } from 'express';
 import createBlogPost from '../controllers/blogController.js';
 import getBlogPosts from '../controllers/blogController.js';
@@ -6,10 +7,11 @@ import updateBlogPost from '../controllers/blogController.js';
 import deleteBlogPost from '../controllers/blogController.js';
 import auth from '../middleware/auth.js';
 import validate from '../middleware/validate.js';
-import blogPostValidation from '../validators/blogValidators.js';
+import { blogPostValidation } from '../validators/blogValidators.js';
 
 const router = Router();
 
+// Create a new blog post
 router.post('/', auth, validate(blogPostValidation), async (req, res) => {
   try {
     const blogPost = await createBlogPost(req.body, req.user._id);
@@ -19,6 +21,7 @@ router.post('/', auth, validate(blogPostValidation), async (req, res) => {
   }
 });
 
+// Get all blog posts
 router.get('/', async (req, res) => {
   try {
     const blogPosts = await getBlogPosts();
@@ -28,6 +31,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Get a single blog post by ID
 router.get('/:id', async (req, res) => {
   try {
     const blogPost = await getBlogPost(req.params.id);
@@ -40,6 +44,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// Update a blog post by ID
 router.put('/:id', auth, validate(blogPostValidation), async (req, res) => {
   try {
     const updatedBlogPost = await updateBlogPost(req.params.id, req.body, req.user._id);
@@ -49,6 +54,7 @@ router.put('/:id', auth, validate(blogPostValidation), async (req, res) => {
   }
 });
 
+// Delete a blog post by ID
 router.delete('/:id', auth, async (req, res) => {
   try {
     await deleteBlogPost(req.params.id, req.user._id);

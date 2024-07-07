@@ -1,22 +1,32 @@
-import { body } from "express-validator";
+// validators/eventValidators.js
+import { body } from 'express-validator';
 
 // Validation middleware for creating an event
 const eventValidation = [
-  body("title")
+  body('title')
+    .trim()
     .notEmpty()
-    .withMessage("Title is required"),
-  body("description")
+    .withMessage('Title is required'),
+
+  body('description')
+    .trim()
     .notEmpty()
-    .withMessage("Description is required"),
-  body("date")
-    .isISO8601()
-    .withMessage("Valid date is required"),
-  body("location")
+    .withMessage('Description is required'),
+
+  body('date')
+    .isISO8601({ strict: true })
+    .withMessage('Valid date in ISO8601 format is required'),
+
+  body('location')
+    .trim()
     .notEmpty()
-    .withMessage("Location is required"),
-  body("imageUrl")
+    .withMessage('Location is required'),
+
+  body('imageUrl')
+    .trim()
     .isURL()
-    .withMessage("Valid URL is required"),
+    .optional()
+    .withMessage('Valid URL is required for image'),
 ];
 
-export default { eventValidation };
+export { eventValidation };

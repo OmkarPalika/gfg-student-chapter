@@ -1,3 +1,4 @@
+// EventContext.js
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const EventContext = createContext();
@@ -25,7 +26,7 @@ export const EventProvider = ({ children }) => {
     };
 
     fetchEvents();
-  }, []);
+  }, []); // Empty dependency array ensures this effect runs only once
 
   return (
     <EventContext.Provider value={{ events, loading, error }}>

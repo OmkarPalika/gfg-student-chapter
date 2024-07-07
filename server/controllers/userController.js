@@ -1,17 +1,57 @@
 import User from '../models/User.js';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-async function getProfile(req, res) {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') });
+
+const { sign } = jwt;
+
+const adminEmails = ['palikaomkar@gmail.com', 'admin2@example.com'];
+
+async function register(req, res) {
   try {
-    const user = await User.findById(req.user._id).select('-password');
-    res.json(user);
+    const { name, email, password } = req.body;
+    let role = 'member';
+
+    if (adminEmails.includes(email)) {
+      role = 'admin';
+    }
+
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      return res.status(400).json({ error: 'Email already in use' });
+    }
+
+    const newUser = new User({ name, email, password, role });
+    await newUser.save();
+
+    const token = sign({ id: newUser._id, role: newUser.role }, process.env.JWT_SECRET, { expiresIn: '1d' });
+
+    res.status(201).json({
+      user: {
+        id: newUser._id,
+        name: newUser.name,
+        email: newUser.email,
+        role: newUser.role
+      },
+      token
+    });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error('Registration error:', error);
+    res.status(500).json({ error: 'Registration failed' });
   }
 }
 
-async function updateProfile(req, res) {
+async function login(req, res) {
   try {
     const { email, password } = req.body;
+
     const user = await User.findOne({ email });
 
     if (!user || !(await user.comparePassword(password))) {
@@ -30,29 +70,86 @@ async function updateProfile(req, res) {
       token
     });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    console.error('Login error:', error);
+    res.status(500).json({ error: 'Login failed' });
   }
 }
 
 async function getUsers(req, res) {
   try {
-    const users = await User.find().select('-password');
+    const filter = req.query;
+    const users = await User.find(filter).select('-password');
     res.json(users);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error('Error fetching users:', error);
+    res.status(500).json({ error: 'Error fetching users' });
   }
 }
 
-async function getUser(req, res) {
+async function approveUser(req, res) {
   try {
-    const user = await User.findById(req.params.id).select('-password');
+    const { id } = req.params;
+    const { status } = req.body;
+
+    if (!['approved', 'rejected'].includes(status)) {
+      return res.status(400).json({ error: 'Invalid status' });
+    }
+
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    user.approvalStatus = status;
+    await user.save();
+
+    res.status(200).json({ message: `User ${status}` });
+  } catch (error) {
+    console.error('Error approving user:', error);
+    res.status(500).json({ error: 'Error approving user' });
+  }
+}
+
+async function getProfile(req, res) {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
     res.json(user);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error('Error fetching profile:', error);
+    res.status(500).json({ error: 'Error fetching profile' });
   }
 }
 
-export default { getProfile, updateProfile, getUsers, getUser };
+async function updateProfile(req, res) {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const { name, email, bio, interests, location } = req.body;
+    if (name) user.name = name;
+    if (email) user.email = email;
+    if (bio) user.bio = bio;
+    if (interests) user.interests = interests;
+    if (location) user.location = location;
+
+    await user.save();
+    res.json(user);
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    res.status(400).json({ error: 'Error updating profile' });
+  }
+}
+
+export default {
+  register,
+  login,
+  getUsers,
+  approveUser,
+  getProfile,
+  updateProfilew
+};

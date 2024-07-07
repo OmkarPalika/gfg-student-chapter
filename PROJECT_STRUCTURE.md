@@ -78,6 +78,7 @@ gfgsc/
 ├── server/                      # Backend (Node.js/Express)
 │   ├── config/                  # Configuration
 │   │   ├── default.json         # Default configuration
+│   │   ├── adminEmails.js
 │   │   └── database.js          # Database configuration
 │   ├── controllers/             # Controllers
 │   │   ├── authController.js

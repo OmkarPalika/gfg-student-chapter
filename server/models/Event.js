@@ -1,3 +1,4 @@
+// models/Event.js
 import { Schema, model } from 'mongoose';
 
 const EventSchema = new Schema({
@@ -9,7 +10,15 @@ const EventSchema = new Schema({
   participants: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   registrationLink: { type: String },
   maxParticipants: { type: Number },
-  createdAt: { type: Date, default: Date.now }
+}, { timestamps: true });
+
+// Middleware for updating `updatedAt` timestamp
+EventSchema.pre('save', function(next) {
+  this.updatedAt = new Date();
+  next();
 });
+
+// Indexes
+EventSchema.index({ date: 1 });
 
 export default model('Event', EventSchema);

@@ -39,9 +39,10 @@ describe('Authenticated Routes', () => {
 
   afterAll(async () => {
     // Clean up: Delete test user after tests
-    await request(app)
-      .delete('/api/auth/delete-test-user')
-      .set('Authorization', `Bearer ${authToken}`);
+    if (authToken) {
+      await request(app)
+        .delete('/api/auth/delete-test-user')
+        .set('Authorization', `Bearer ${authToken}`);
+    }
   });
 });
-

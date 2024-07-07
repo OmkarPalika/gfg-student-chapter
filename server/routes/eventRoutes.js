@@ -1,3 +1,4 @@
+// routes/eventRoutes.js
 import { Router } from 'express';
 import createEvent from '../controllers/eventController.js';
 import getEvents from '../controllers/eventController.js';
@@ -6,10 +7,11 @@ import updateEvent from '../controllers/eventController.js';
 import deleteEvent from '../controllers/eventController.js';
 import auth from '../middleware/auth.js';
 import validate from '../middleware/validate.js';
-import eventValidation from '../validators/eventValidators.js';
+import { eventValidation } from '../validators/eventValidators.js';
 
 const router = Router();
 
+// Create a new event
 router.post('/', auth, validate(eventValidation), async (req, res) => {
   try {
     const event = await createEvent(req.body, req.user._id);
@@ -19,6 +21,7 @@ router.post('/', auth, validate(eventValidation), async (req, res) => {
   }
 });
 
+// Get all events
 router.get('/', async (req, res) => {
   try {
     const events = await getEvents();
@@ -28,6 +31,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Get a single event by ID
 router.get('/:id', async (req, res) => {
   try {
     const event = await getEvent(req.params.id);
@@ -40,6 +44,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// Update an event by ID
 router.put('/:id', auth, validate(eventValidation), async (req, res) => {
   try {
     const updatedEvent = await updateEvent(req.params.id, req.body, req.user._id);
@@ -49,6 +54,7 @@ router.put('/:id', auth, validate(eventValidation), async (req, res) => {
   }
 });
 
+// Delete an event by ID
 router.delete('/:id', auth, async (req, res) => {
   try {
     await deleteEvent(req.params.id, req.user._id);

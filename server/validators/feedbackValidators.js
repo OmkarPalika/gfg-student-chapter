@@ -1,13 +1,17 @@
-import { body } from "express-validator";
+// validators/feedbackValidators.js
+import { body } from 'express-validator';
 
 // Validation middleware for creating a feedback
 const feedbackValidation = [
-  body("title")
+  body('title')
+    .trim()
     .notEmpty()
-    .withMessage("Title is required"),
-  body("content")
+    .withMessage('Title is required'),
+
+  body('content')
+    .trim()
     .notEmpty()
-    .withMessage("Content is required"),
+    .withMessage('Content is required'),
 ];
 
-export default { feedbackValidation };
+export { feedbackValidation };

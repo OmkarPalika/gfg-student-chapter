@@ -44,6 +44,23 @@ export const remove = async (endpoint) => {
 
 // Helper function to handle API errors
 const handleApiError = (error) => {
-  console.error('API Error:', error.response || error.message || error);
+  if (error.response) {
+    // The request was made and the server responded with a status code
+    console.error('API Error - Status:', error.response.status);
+    console.error('API Error - Data:', error.response.data);
+  } else if (error.request) {
+    // The request was made but no response was received
+    console.error('API Error - No response received:', error.request);
+  } else {
+    // Something happened in setting up the request that triggered an error
+    console.error('API Error - Other error:', error.message);
+  }
   throw error;
+};
+
+export default {
+  get,
+  post,
+  put,
+  remove,
 };

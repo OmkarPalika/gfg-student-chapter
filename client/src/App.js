@@ -22,10 +22,11 @@ const DiscussionForums = lazy(() => import('./pages/DiscussionForums'));
 const Blogs = lazy(() => import('./pages/Blogs'));
 const InteractiveTutorials = lazy(() => import('./pages/InteractiveTutorials'));
 const NotFound = lazy(() => import('./pages/NotFound'));
+const Notifications = lazy(() => import('./pages/Notifications'));
 
 const App = () => {
   return (
-    <Router basename="/">
+    <Router>
       <AuthProvider>
         <ErrorBoundary>
           <Suspense fallback={<LoadingSpinner />}>
@@ -37,14 +38,85 @@ const App = () => {
               <Route path="/contact" element={<Contact />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/member-dashboard" element={<PrivateRoute><MemberDashboard /></PrivateRoute>} />
-              <Route path="/admin-dashboard" element={<PrivateRoute><AdminDashboard /></PrivateRoute>} />
-              <Route path="/certification-validation" element={<CertificationValidation />} />
-              <Route path="/review-feedback" element={<ReviewFeedback />} />
-              <Route path="/event-calendar" element={<EventCalendar />} />
-              <Route path="/discussion-forums" element={<DiscussionForums />} />
-              <Route path="/blogs" element={<Blogs />} />
-              <Route path="/interactive-tutorials" element={<InteractiveTutorials />} />
+
+              {/* Routes for logged-in users (both members and admins) */}
+              <Route 
+                path="/notifications" 
+                element={
+                  <PrivateRoute roles={['member', 'admin']}>
+                    <Notifications />
+                  </PrivateRoute>
+                } 
+              />
+
+              {/* Member-specific routes */}
+              <Route 
+                path="/member-dashboard" 
+                element={
+                  <PrivateRoute roles={['member', 'admin']}>
+                    <MemberDashboard />
+                  </PrivateRoute>
+                } 
+              />
+              <Route 
+                path="/event-calendar" 
+                element={
+                  <PrivateRoute roles={['member', 'admin']}>
+                    <EventCalendar />
+                  </PrivateRoute>
+                } 
+              />
+              <Route 
+                path="/discussion-forums" 
+                element={
+                  <PrivateRoute roles={['member', 'admin']}>
+                    <DiscussionForums />
+                  </PrivateRoute>
+                } 
+              />
+              <Route 
+                path="/blogs" 
+                element={
+                  <PrivateRoute roles={['member', 'admin']}>
+                    <Blogs />
+                  </PrivateRoute>
+                } 
+              />
+
+              {/* Admin-specific routes */}
+              <Route 
+                path="/admin-dashboard" 
+                element={
+                  <PrivateRoute roles={['admin']}>
+                    <AdminDashboard />
+                  </PrivateRoute>
+                } 
+              />
+              <Route 
+                path="/certification-validation" 
+                element={
+                  <PrivateRoute roles={['admin']}>
+                    <CertificationValidation />
+                  </PrivateRoute>
+                } 
+              />
+              <Route 
+                path="/review-feedback" 
+                element={
+                  <PrivateRoute roles={['admin']}>
+                    <ReviewFeedback />
+                  </PrivateRoute>
+                } 
+              />
+              <Route 
+                path="/interactive-tutorials" 
+                element={
+                  <PrivateRoute roles={['admin']}>
+                    <InteractiveTutorials />
+                  </PrivateRoute>
+                } 
+              />
+
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

@@ -1,3 +1,4 @@
+// models/Discussion.js
 import { Schema, model } from 'mongoose';
 
 const ReplySchema = new Schema({
@@ -13,13 +14,16 @@ const DiscussionSchema = new Schema({
   category: { type: String, required: true },
   tags: [{ type: String }],
   replies: [ReplySchema],
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now }
-});
+}, { timestamps: true });
 
+// Middleware for updating `updatedAt` timestamp
 DiscussionSchema.pre('save', function(next) {
   this.updatedAt = new Date();
   next();
 });
+
+// Indexes
+DiscussionSchema.index({ author: 1 });
+DiscussionSchema.index({ tags: 1 });
 
 export default model('Discussion', DiscussionSchema);

@@ -1,16 +1,21 @@
-import { body } from "express-validator";
+// validators/resourceValidators.js
+import { body } from 'express-validator';
 
 // Validation middleware for creating a resource
 const resourceValidation = [
-  body("title")
+  body('title')
+    .trim()
     .notEmpty()
-    .withMessage("Title is required"),
-  body("description")
+    .withMessage('Title is required'),
+
+  body('description')
+    .trim()
     .notEmpty()
-    .withMessage("Description is required"),
-  body("url")
+    .withMessage('Description is required'),
+
+  body('url')
     .isURL()
-    .withMessage("Valid URL is required"),
+    .withMessage('Valid URL is required'),
 ];
 
-export default { resourceValidation };
+export { resourceValidation };
