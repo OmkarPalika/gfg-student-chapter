@@ -1,29 +1,45 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
+import path from 'path';
+import dotenv from 'dotenv';
+
+dotenv.config({ path: path.resolve(process.cwd(), 'server', '.env') });
 
 const auth = async (req, res, next) => {
   try {
-    const token = req.header('Authorization')?.replace('Bearer ', '');
+    let token = req.header('Authorization')?.replace('Bearer ', '');
 
+    // If token is not in header, check cookies
+    if (!token && req.cookies && req.cookies.token) {
+      token = req.cookies.token;
+    }
+    
     if (!token) {
-      throw new Error('Missing token');
+      return res.status(401).json({ error: 'No authentication token, access denied' });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      
+      const user = await User.findById(decoded.id).select('-password');
 
-    const user = await User.findOne({ _id: decoded.id, role: decoded.role });
+      if (!user) {
+        return res.status(401).json({ error: 'User not found' });
+      }
 
-    if (!user) {
-      throw new Error('User not found');
+      if (user.approvalStatus !== 'approved') {
+        return res.status(403).json({ error: 'User not approved' });
+      }
+
+      req.user = user;
+      req.token = token;
+      next();
+    } catch (error) {
+      return res.status(401).json({ error: 'Token is not valid' });
     }
-
-    req.token = token;
-    req.token = token;
-    req.user = user;
-    next();
   } catch (error) {
     console.error('Authentication error:', error.message);
-    res.status(401).json({ error: 'Please authenticate' });
+    res.status(500).json({ error: 'Server error' });
   }
 };
 

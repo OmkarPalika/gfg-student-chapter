@@ -1,11 +1,8 @@
 import express from 'express';
-import { resolve, join } from 'path';
-import dotenv from 'dotenv';
+import { join } from 'path';
 import setupMiddlewares from './middleware/index.js';
 import pkg from './swagger.js';
 const { swaggerUi, specs } = pkg;
-
-dotenv.config({ path: resolve(process.cwd(), '..', '.env') });
 
 const app = express();
 

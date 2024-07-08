@@ -20,6 +20,9 @@ const Register = () => {
       }
 
       // You can add password strength validation here if needed
+      if (password.length < 8) {
+        throw new Error('Password must be at least 8 characters long.');
+      }
 
       await register(email, password);
       setLoading(false);

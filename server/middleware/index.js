@@ -1,4 +1,4 @@
-// index.js
+// middleware/index.js
 import express from 'express';
 import helmet from 'helmet';
 import mongoSanitize from 'express-mongo-sanitize';
@@ -29,7 +29,8 @@ const setupMiddlewares = (app) => {
     origin: ['http://localhost:3000'], // Allow requests from localhost:3000
     optionsSuccessStatus: 200, // Return 200 for successful preflight requests
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specified HTTP methods
-    allowedHeaders: ['Content-Type', 'Authorization'] // Allow specified headers
+    allowedHeaders: ['Content-Type', 'Authorization'], // Allow specified headers
+    credentials: true, // Enable credentials for requests
   };
   app.use(cors(corsOptions)); // Enable CORS with options
 
