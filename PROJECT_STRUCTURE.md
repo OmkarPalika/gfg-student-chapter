@@ -15,7 +15,7 @@ gfgsc/
 │   │   │   ├── Header.js
 │   │   │   ├── LoadingSpinner.js
 │   │   │   ├── Navbar.js
-│   │   │   ├── Nottification.js
+│   │   │   ├── Notification.js
 │   │   │   ├── PrivateRoute.js
 │   │   │   └── ...
 │   │   ├── config/              # Configuration
