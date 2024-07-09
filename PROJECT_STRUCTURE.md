@@ -5,12 +5,9 @@ gfgsc/
 │   │   ├── manifest.json
 │   │   ├── robots.txt
 │   │   └── favicon.ico
+│   ├── node_modules/
 │   ├── src/
 │   │   ├── components/          # Reusable components
-│   │   │   ├── BlogPost.js
-│   │   │   ├── ErrorBoundary.js
-│   │   │   ├── EventCard.js
-│   │   │   ├── Footer.js
 │   │   │   ├── BlogPost.js
 │   │   │   ├── ErrorBoundary.js
 │   │   │   ├── EventCard.js
@@ -19,9 +16,7 @@ gfgsc/
 │   │   │   ├── Notification.js
 │   │   │   ├── LoadingSpinner.js
 │   │   │   ├── Navbar.js
-│   │   │   ├── PrivateRoute.js
-│   │   │   ├── LoadingSpinner.js
-│   │   │   ├── Navbar.js
+│   │   │   ├── Nottification.js
 │   │   │   ├── PrivateRoute.js
 │   │   │   └── ...
 │   │   ├── config/              # Configuration
@@ -41,6 +36,7 @@ gfgsc/
 │   │   │   ├── CertificationValidation.js
 │   │   │   ├── ReviewFeedback.js
 │   │   │   ├── EventCalendar.js
+│   │   │   ├── EventDetails.js
 │   │   │   ├── DiscussionForums.js
 │   │   │   ├── Blogs.js
 │   │   │   ├── InteractiveTutorials.js
@@ -70,6 +66,7 @@ gfgsc/
 │   │   ├── App.js
 │   │   └── index.js
 │   ├── package.json
+│   ├── package-lock.json
 │   ├── README.md
 │   ├── .gitignore
 │   ├── postcss.config.js
@@ -114,7 +111,7 @@ gfgsc/
 │   │   ├── resourceRoutes.js
 │   │   ├── feedbackRoutes.js
 │   │   ├── userRoutes.js
-│   │   ├── notifications.js
+│   │   ├── notificationRoutes.js
 │   │   ├── mediaRoutes.js
 │   │   ├── blogRoutes.js
 │   │   ├── discussionRoutes.js
@@ -137,15 +134,20 @@ gfgsc/
 │   │   ├── auth.test.js         # Tests for auth routes
 │   │   ├── authenticatedRoutes.test.js # Tests for authenticated routes
 │   │   └── ...
+│   ├── node_modules/
 │   ├── swagger.js               # Swagger setup for API documentation
 │   ├── app.js                   # Express app setup
 │   ├── server.js                # Server entry point
 │   ├── README.md
+│   ├── .gitignore
+│   ├── .env
+│   ├── package-lock.json
 │   └── package.json
 │
 ├── scripts/                     # Custom scripts
 │   └── ...
 ├── .env                         # Environment variables
 ├── .gitignore
+├── PROJECT_STRUCTURE.md
 ├── README.md                    # Project-wide README
 └── package.json                 # Root package.json for project-wide scripts
