@@ -13,7 +13,6 @@ gfgsc/
 │   │   │   ├── EventCard.js
 │   │   │   ├── Footer.js
 │   │   │   ├── Header.js
-│   │   │   ├── Notification.js
 │   │   │   ├── LoadingSpinner.js
 │   │   │   ├── Navbar.js
 │   │   │   ├── Nottification.js
